@@ -1,4 +1,4 @@
-﻿/*#pragma strict
+﻿#pragma strict
 
 import System.IO;
 import System.Collections.Generic;
@@ -11,8 +11,6 @@ var listBookcases = new List.<Bookcase>();
 
 function Start () {
 
-	
-	
 		var line : String;
 		//var sr = new StreamReader("posizioni_scaffali_1.txt");
 		
@@ -161,7 +159,7 @@ function drawBookcases(){
 				/*if(b.id.Equals("ea_544-895.dds")){
 					print("h = "+ b.hight);
 				}*/
-		/*		if(bc.rot == 0){
+				if(bc.rot == 0){
 					createBook(bc.posx + 0.05, oy + 0.05, bc.posz - 0.47 + oz, bc.rot, b.hight, b.width);
 					oz += b.width + 0.01;
 				} else if(bc.rot == 180){
@@ -229,7 +227,7 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	instance.localScale = Vector3(1, h, w);	
 }
 
-// NUOVE CLASSI
+/*// NUOVE CLASSI
 
 class Bookcase {
 
@@ -275,6 +273,6 @@ class Book {
 		this.width = w;
 		this.orientation = or;
 	}
-}
-*/
+}*/
+
 
