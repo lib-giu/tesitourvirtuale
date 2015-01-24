@@ -1,4 +1,4 @@
-﻿#pragma strict
+﻿/*#pragma strict
 
 import System.IO;
 import System.Collections.Generic;
@@ -108,5 +108,5 @@ function drawCube(){
 		cube.transform.localScale = Vector3(cb.side, cb.side, cb.side);
 		cube.transform.position = Vector3(cb.x, cb.side/2, cb.z);		
 	}
-}
+}*/
 
