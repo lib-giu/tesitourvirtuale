@@ -11,15 +11,15 @@ var listBookcases = new List.<Bookcase>();
 function Start () {
 
 	var line : String;
-	var sr = new StreamReader("posizioni_scaffali_1.txt");
+	//var sr = new StreamReader("posizioni_scaffali_1.txt");
 
-/*	var url = "./posizioni_scaffali_1.txt";
+	var url = "./posizioni_scaffali_1.txt";
 
 	var www : WWW = new WWW(url);
 	yield www;
 
 	var sr = new StringReader(www.text);
-*/
+
 	try{
 
 		var info : String[];
@@ -29,7 +29,7 @@ function Start () {
 		var larg : float;
 		var depth : float;
 
-		//read file with position of bookcase
+		//read file with the position of all bookcases
 		line = sr.ReadLine();
 
 		while(line != null){
@@ -47,20 +47,19 @@ function Start () {
 		}
 
 	}catch(e){
-		//let the user know what went wrong
 		print("The file could not be read: ");
 		print(e.Message);
 	}
 	
-	sr = new StreamReader("libri-s10-11.txt");	
+	//sr = new StreamReader("libri-s10-11.txt");	
 
-/*	url = "./libri-s10-11.txt";
+	url = "./libri-s10-11.txt";
 
 	www = new WWW(url);
 	yield www;
 	
 	sr = new StringReader(www.text);		
-*/	
+	
 	try{
 		line = sr.ReadLine();
 		
@@ -89,7 +88,7 @@ function Start () {
 			title = info[3];
 			h = float.Parse(info[4]);
 			//print("h: "+h);
-			w = float.Parse(info[5]) * 0.0002 + 0.006; // 0.0002: thickness of sheet of paper; 0.006: thickness of cover
+			w = float.Parse(info[5]) * 0.002 + 0.06; // 0.002: thickness of the sheet of paper; 0.06: thickness of the cover
 			or = info[6];
 			
 			if(nbookcase != bookcasenum){
@@ -105,16 +104,16 @@ function Start () {
 		 		var sh = new Shelf(nshelf, hmax);
 		 		listBookcases[bookcasenum].listShelves.Add(sh);
 		 		//print("offsety: "+ listBookcases[bookcasenum].listShelves[nshelf].offsety);
-		 		if(h + 0.15 > hmax){
-					hmax = h  + 0.15;
+		 		if(h + 15 > hmax){
+					hmax = h  + 15;
 				} 
 		 		shelfnum = nshelf;
 		 		//print("Piano: "+shelfnum);
 		 		
 		 	}else{
 		 	
-			 	if(h + 0.15 > hmax){
-					hmax = h  + 0.15;
+			 	if(h + 15 > hmax){
+					hmax = h  + 15;
 				} 			 	
 		 	}			 		
 		 	
@@ -161,33 +160,33 @@ function drawBookcases(){
 			for(var b in sh.listBooks){			// books on the shelf
 			
 				if(bc.rot == 0){
-					createBook(bc.posx + 0.05, oy + 0.05, bc.posz - 0.47 + oz, bc.rot, b.hight, b.width);
-					oz += b.width + 0.01;
+					createBook(bc.posx + 5, oy + 5, bc.posz - 4.7 + oz, bc.rot, b.hight, b.width);
+					oz += b.width + 0.1;
 				} else if(bc.rot == 180){
-					createBook(bc.posx - 0.05, oy + 0.05, bc.posz + 0.47 + oz, bc.rot, b.hight, b.width);
-					oz -= b.width + 0.01;
+					createBook(bc.posx - 5, oy + 5, bc.posz + 4.7 + oz, bc.rot, b.hight, b.width);
+					oz -= b.width + 0.1;
 				} else if(bc.rot == 90){
-					createBook(bc.posx - 0.47 + oz, oy + 0.05, bc.posz - 0.05, bc.rot, b.hight, b.width);
-					oz += b.width + 0.01;
+					createBook(bc.posx - 4.7 + oz, oy + 5, bc.posz - 5, bc.rot, b.hight, b.width);
+					oz += b.width + 0.1;
 				} else if(bc.rot == -90){
-					createBook(bc.posx + 0.47 + oz, oy + 0.05, bc.posz + 0.05, bc.rot, b.hight, b.width);
-					oz -= b.width + 0.01;
+					createBook(bc.posx + 4.7 + oz, oy + 5, bc.posz + 5, bc.rot, b.hight, b.width);
+					oz -= b.width + 0.1;
 				}
 				hmax = b.hight;	
 				
 			}	// close for() books	
 		}	//close for() shelves
 		
-		createShelf(bc.posx, oy + hmax + 0.15, bc.posz, bc.rot, bc.larg, bc.depth);
-		createSupport(bc.posx, oy + hmax + 0.15 + 0.05, bc.posz, bc.rot, bc.larg, bc.depth);	// hmax+0.15 is the position of the last shelf, 0.05 is the thickness of shelf
+		createShelf(bc.posx, oy + hmax + 15, bc.posz, bc.rot, bc.larg, bc.depth);
+		createSupport(bc.posx, oy + hmax + 15 + 5, bc.posz, bc.rot, bc.larg, bc.depth);	// hmax+0.15 is the position of the last shelf, 0.05 is the thickness of the shelf
 		
 		}else{
 			var offsety = 0.0;
 			for(var i = 0; i < 8; i++){
 				createShelf(bc.posx, offsety, bc.posz, bc.rot, bc.larg, bc.depth);
-				offsety += 0.3;
+				offsety += 30;
 			}
-			createSupport(bc.posx, offsety - 0.3 + 0.05, bc.posz, bc.rot, bc.larg, bc.depth);
+			createSupport(bc.posx, offsety - 30 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
 		}//close else
 	}	// close for() bookcases	
 } //close drawBookcases()
