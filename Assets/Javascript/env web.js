@@ -99,7 +99,8 @@ function Start () {
 				//print("Scaffale: "+bookcasenum);				
 			}
 					
-		 	if(nshelf != shelfnum){
+		 	/*if(nshelf != shelfnum){
+		 	
 		 		//print("hmax: "+ hmax);
 		 		var sh = new Shelf(nshelf, hmax);
 		 		listBookcases[bookcasenum].listShelves.Add(sh);
@@ -115,8 +116,52 @@ function Start () {
 			 	if(h + 15 > hmax){
 					hmax = h  + 15;
 				} 			 	
-		 	}			 		
-		 	
+		 	}*/		
+
+			//nuovo pezzo di codice aggiunto
+
+			if(nshelf != shelfnum){
+			
+				var sh : Shelf;
+				
+				if(nshelf - shelfnum > 1){
+				
+					var punt = nshelf;
+					var off = nshelf - shelfnum - 1;
+					
+					for(var q = 0; q < off; q++){
+						
+						nshelf = shelfnum + 1;
+						hmax = 30;
+						sh = new Shelf(nshelf, hmax);
+						listBookcases[bookcasenum].listShelves.Add(sh);
+						shelfnum = nshelf;
+					}
+					
+					sh = new Shelf(punt, hmax);
+					listBookcases[bookcasenum].listShelves.Add(sh);
+					
+					if(h + 15 > hmax){
+						hmax = h + 15;
+					}
+					shelfnum = punt;
+					
+				}else if(nshelf - shelfnum == 1){
+					sh = new Shelf(nshelf, hmax);
+					listBookcases[bookcasenum].listShelves.Add(sh);
+					
+					if(h + 15 > hmax){
+						hmax = h + 15;
+					}
+					shelfnum = nshelf;
+				}
+			}else{				
+				if(h + 15 > hmax){
+						hmax = h + 15;
+					}
+			}
+			//fine nuovo pezzo di codice aggiuto
+			
 			var bk = new Book(id, title, h, w, or);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
@@ -126,12 +171,12 @@ function Start () {
 		sr.Close();	//close StreamReader or StreamReader
 		
 	}catch(e){
-		//let the user know what went wrong
 		print("The file could not be read: ");
 		print(e.Message);
 	}// close try/catch
 	
 	drawBookcases();
+	
 }	//close Start()
 
 function Update () {
@@ -150,17 +195,12 @@ function drawBookcases(){
 			
 			var oz : float = 0.00;
 			oy += sh.offsety;
-			
-			//if(sh.nshelf == 1){
-			//	print("oy: " + oy);
-			//}
 		
 			createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
 			
 			for(var b in sh.listBooks){			// books on the shelf
 			
-				if(bc.rot == 0){
-					
+				if(bc.rot == 0){					
 					createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
 					oz += b.width + 0.5;
 					
@@ -230,9 +270,6 @@ function createSupport(posx : float, posy : float, posz : float, rot : int, larg
 		instance = Instantiate(support, pos, transform.rotation);
 		instance.localScale = Vector3(depth, posy + 5, depth);
 	}
-	//transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);	
-	//instance = Instantiate(support, pos, transform.rotation);
-	//instance.localScale = Vector3(1, posy, 1);
 }
 
 function createBook(posx : float, posy : float, posz : float, rot : int, h : float, w : float, d : float, id : String){
