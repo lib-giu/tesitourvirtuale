@@ -15,7 +15,7 @@ function onClickExit(){
 
 function onClickPlay(){
 
-	Application.LoadLevel("enviroment");
+	Application.LoadLevel("test web");
 }
 
 function onClickHistory(){
