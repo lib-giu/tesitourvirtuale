@@ -20,7 +20,6 @@ class Bookcase {
 	var listShelves = new List.<Shelf>();
 	
 	function Bookcase(posx : float, posz : float, rot : float, larg : float, depth : float){
-	//function Bookcase(posx : float, posz : float, rot : float){
 		this.posx = posx;
 		this.posz = posz;
 		this.rot = rot;
@@ -48,7 +47,7 @@ class Book {
 	var hight : float;
 	var width : float;
 	var orientation : String;
-	//var depth : float;
+	var depth : float;
 	
 	function Book(id : String, title : String, h : float, w: float, or : String){
 		this.id = id;
@@ -56,7 +55,7 @@ class Book {
 		this.hight = h;
 		this.width = w;
 		this.orientation = or;
-		//depth = 25;
+		depth = 25;
 	}
 }
 

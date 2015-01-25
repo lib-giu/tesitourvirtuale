@@ -151,26 +151,30 @@ function drawBookcases(){
 			var oz : float = 0.00;
 			oy += sh.offsety;
 			
-			if(sh.nshelf == 1){
-				print("oy: " + oy);
-			}
+			//if(sh.nshelf == 1){
+			//	print("oy: " + oy);
+			//}
 		
 			createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
 			
 			for(var b in sh.listBooks){			// books on the shelf
 			
 				if(bc.rot == 0){
-					createBook(bc.posx + 5, oy + 5, bc.posz - 4.7 + oz, bc.rot, b.hight, b.width);
-					oz += b.width + 0.1;
+					
+					createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+					oz += b.width + 0.5;
+					
 				} else if(bc.rot == 180){
-					createBook(bc.posx - 5, oy + 5, bc.posz + 4.7 + oz, bc.rot, b.hight, b.width);
-					oz -= b.width + 0.1;
+					createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+					oz -= b.width + 0.5;
+					
 				} else if(bc.rot == 90){
-					createBook(bc.posx - 4.7 + oz, oy + 5, bc.posz - 5, bc.rot, b.hight, b.width);
-					oz += b.width + 0.1;
+					createBook(bc.posx - (bc.larg/2) + 3 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+					oz += b.width + 0.5;
+					
 				} else if(bc.rot == -90){
-					createBook(bc.posx + 4.7 + oz, oy + 5, bc.posz + 5, bc.rot, b.hight, b.width);
-					oz -= b.width + 0.1;
+					createBook(bc.posx + (bc.larg/2) - 3 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+					oz -= b.width + 0.5;
 				}
 				hmax = b.hight;	
 				
@@ -182,7 +186,7 @@ function drawBookcases(){
 		
 		}else{
 			var offsety = 0.0;
-			for(var i = 0; i < 8; i++){
+			for(var i = 0; i < 9; i++){
 				createShelf(bc.posx, offsety, bc.posz, bc.rot, bc.larg, bc.depth);
 				offsety += 30;
 			}
@@ -231,7 +235,7 @@ function createSupport(posx : float, posy : float, posz : float, rot : int, larg
 	//instance.localScale = Vector3(1, posy, 1);
 }
 
-function createBook(posx : float, posy : float, posz : float, rot : int, h : float, w : float){
+function createBook(posx : float, posy : float, posz : float, rot : int, h : float, w : float, d : float, id : String){
 	
 	var instance : Transform;
 	var pos = Vector3(posx, posy, posz);	
@@ -239,5 +243,6 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);
 	
 	instance = Instantiate(book, pos, transform.rotation);
-	instance.localScale = Vector3(1, h, w);	
+	instance.localScale = Vector3(d, h, w);	
+	
 }
