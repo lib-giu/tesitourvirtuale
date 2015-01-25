@@ -204,12 +204,31 @@ function createShelf(posx : float, posy : float, posz : float, rot : int, larg :
 function createSupport(posx : float, posy : float, posz : float, rot : int, larg : float, depth : float){
 
 	var instance : Transform;
-	//var instanceSupport : Transform;
-	var pos = Vector3(posx, 0.0, posz);
+	var pos : Vector3;
 	
-	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);	
-	instance = Instantiate(support, pos, transform.rotation);
-	instance.localScale = Vector3(1, posy, 1);
+	if(rot == 0 || rot ==180){
+	
+		pos = Vector3(posx, -5, posz - (larg/2));
+		instance = Instantiate(support, pos, transform.rotation);
+		instance.localScale = Vector3(depth, posy + 5, depth);
+		
+		pos = Vector3(posx, -5, posz + (larg/2));
+		instance = Instantiate(support, pos, transform.rotation);
+		instance.localScale = Vector3(depth, posy + 5, depth);
+		
+	}else if(rot == 90 || rot == -90){
+	
+		pos = Vector3(posx - (larg/2), -5, posz);
+		instance = Instantiate(support, pos, transform.rotation);
+		instance.localScale = Vector3(depth, posy + 5, depth);
+		
+		pos = Vector3(posx + (larg/2), -5, posz);
+		instance = Instantiate(support, pos, transform.rotation);
+		instance.localScale = Vector3(depth, posy + 5, depth);
+	}
+	//transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);	
+	//instance = Instantiate(support, pos, transform.rotation);
+	//instance.localScale = Vector3(1, posy, 1);
 }
 
 function createBook(posx : float, posy : float, posz : float, rot : int, h : float, w : float){
