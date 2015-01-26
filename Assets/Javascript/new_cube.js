@@ -70,9 +70,9 @@ if(Input.GetMouseButton(0)){	//se viene schiacciato il tasto sx del mouse vogli 
 		
 		if (hit){
 		
-			Debug.Log("Hit " + hitInfo.transform.gameObject.name);
+			Debug.Log("Hit " + hitInfo.transform.name);
 			
-			if (hitInfo.transform.gameObject.tag == "selectable")	{
+			if (hitInfo.collider.tag == "selectable")	{
 			
 				var name : String = hitInfo.transform.gameObject.name;
 				
@@ -100,13 +100,23 @@ if(Input.GetMouseButton(0)){	//se viene schiacciato il tasto sx del mouse vogli 
 function drawCube(){
 	
 	for(var cb in listCubes){	
-		var cube : GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-	
+	/*	var cube : GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
 		cube.name = cb.name;
 		cube.tag = "selectable";
 	
 		cube.transform.localScale = Vector3(cb.side, cb.side, cb.side);
-		cube.transform.position = Vector3(cb.x, cb.side/2, cb.z);		
+		cube.transform.position = Vector3(cb.x, cb.side/2, cb.z);
+	*/
+	
+	var instance : Transform;
+	var pos = Vector3(cb.x, cb.side/2, cb.z);	
+	
+	instance = Instantiate(cub, pos, transform.rotation);
+	instance.localScale = Vector3(cb.side, cb.side, cb.side);	
+	instance.name = cb.name;
+	instance.tag = "selectable";
+	
+		
 	}
 }*/
 
