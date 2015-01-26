@@ -20,7 +20,6 @@ class Bookcase {
 	var listShelves = new List.<Shelf>();
 	
 	function Bookcase(posx : float, posz : float, rot : float, larg : float, depth : float){
-	
 		this.posx = posx;
 		this.posz = posz;
 		this.rot = rot;
@@ -60,7 +59,7 @@ class Book {
 	}
 }
 
-class NewCube{
+/*class NewCube{
 
 	var id : String;
 	var name :  String;
@@ -76,7 +75,13 @@ class NewCube{
 		this.x = x;
 		this.z = z;
 	}
-}
+}*/
+
+
+
+
+
+
 
 
 
