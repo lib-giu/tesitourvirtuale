@@ -11,9 +11,9 @@ var listBookcases = new List.<Bookcase>();
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali_1.txt");
+	//var sr = new StreamReader("posizioni_scaffali.txt");
 
-	var url = "./posizioni_scaffali_1.txt";
+	var url = "./posizioni_scaffali.txt";
 
 	var www : WWW = new WWW(url);
 	yield www;
@@ -51,9 +51,9 @@ function Start () {
 		print(e.Message);
 	}
 	
-	//sr = new StreamReader("libri-s10-11.txt");	
+	//sr = new StreamReader("libri.txt");	
 
-	url = "./libri-s10-11.txt";
+	url = "./libri.txt";
 
 	www = new WWW(url);
 	yield www;
@@ -99,27 +99,6 @@ function Start () {
 				//print("Scaffale: "+bookcasenum);				
 			}
 					
-		 	/*if(nshelf != shelfnum){
-		 	
-		 		//print("hmax: "+ hmax);
-		 		var sh = new Shelf(nshelf, hmax);
-		 		listBookcases[bookcasenum].listShelves.Add(sh);
-		 		//print("offsety: "+ listBookcases[bookcasenum].listShelves[nshelf].offsety);
-		 		if(h + 15 > hmax){
-					hmax = h  + 15;
-				} 
-		 		shelfnum = nshelf;
-		 		//print("Piano: "+shelfnum);
-		 		
-		 	}else{
-		 	
-			 	if(h + 15 > hmax){
-					hmax = h  + 15;
-				} 			 	
-		 	}*/		
-
-			//nuovo pezzo di codice aggiunto
-
 			if(nshelf != shelfnum){
 			
 				var sh : Shelf;
@@ -159,9 +138,7 @@ function Start () {
 				if(h + 15 > hmax){
 						hmax = h + 15;
 					}
-			}
-			//fine nuovo pezzo di codice aggiuto
-			
+			}			
 			var bk = new Book(id, title, h, w, or);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
@@ -177,7 +154,7 @@ function Start () {
 	
 	drawBookcases();
 	
-}	//close Start()
+}//close Start()
 
 function Update () {
 }
@@ -280,6 +257,5 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);
 	
 	instance = Instantiate(book, pos, transform.rotation);
-	instance.localScale = Vector3(d, h, w);	
-	
+	instance.localScale = Vector3(d, h, w);		
 }
