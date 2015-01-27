@@ -2,6 +2,7 @@
 
 import System.IO;
 import System.Collections.Generic;
+import UnityEngine.UI;
 
 var shelf : Transform;
 var support : Transform;
@@ -52,7 +53,6 @@ function Start () {
 	}
 	
 //	sr = new StreamReader("libri.txt");	
-
 	url = "./libri.txt";
 
 	www = new WWW(url);
@@ -262,43 +262,46 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 		child.tag = "selectable";
 	}
 }
+var canvasHelp : Canvas;
+var canvasInfoBook : Canvas;
+var title : Text;
 
 function Update () {
 
-	if(Input.GetMouseButton(0)){
-		var hitInfo : RaycastHit = new RaycastHit();
-		var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
-		
-		if(hit){
-			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
-			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+	if(canvasHelp.enabled == false){
+	
+		if(Input.GetMouseButton(0)){
+			var hitInfo : RaycastHit = new RaycastHit();
+			var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
 			
-			if(hitInfo.collider.tag == "selectable"){
-				var name : String = hitInfo.transform.gameObject.name;
+			if(hit){
+				//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
+				//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
 				
-				for(var bc in listBookcases){
-					for(var sh in bc.listShelves){
-						for(var b in sh.listBooks){
-							if(b.id == name){
-								print("Titolo del libro:" + b.title);
-								print("Id del libro:" + b.id + " ; Name: " + name);
-								pauseInfo(b.title);
-							}							
+				if(hitInfo.collider.tag == "selectable"){
+					var name : String = hitInfo.transform.gameObject.name;
+					
+					for(var bc in listBookcases){
+						for(var sh in bc.listShelves){
+							for(var b in sh.listBooks){
+								if(b.id == name){
+									print("Titolo del libro:" + b.title);
+									print("Id del libro:" + b.id + " ; Name: " + name);
+									pauseInfo(b.id);
+								}							
+							}
 						}
 					}
+					//Debug.Log("It's working");
+				}else{
+					//Debug.Log("Not working");
 				}
-				//Debug.Log("It's working");
 			}else{
-				//Debug.Log("Not working");
+				//Debug.Log("No hit");
 			}
-		}else{
-			//Debug.Log("No hit");
 		}
 	}
 }
-
-var canvasInfoBook : Canvas;
-//var title : Text;
 
 function pauseInfo(t : String){
 	
@@ -306,6 +309,17 @@ function pauseInfo(t : String){
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
 	canvasInfoBook.enabled = true;
+	
+	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
+	title.text = t;
+}
+
+function resumeGame(){
+
+	Time.timeScale = 1;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
+	canvasInfoBook.enabled = false;	
 }
 
 
