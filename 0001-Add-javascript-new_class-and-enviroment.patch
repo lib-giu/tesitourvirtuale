@@ -1,0 +1,128 @@
+From a365042648cf29276accdeb6a22203b023dc774b Mon Sep 17 00:00:00 2001
+From: Giulia Liberti <giulia.liberti@gmail.com>
+Date: Mon, 26 Jan 2015 15:50:24 +0100
+Subject: [PATCH 1/7] Add javascript new_class and enviroment
+
+---
+ Assets/Javascript/enviroment.js | 34 ++++++++++++++++++++++++++++++----
+ Assets/Javascript/new_cube.js   | 20 +++++++++++++++-----
+ 2 files changed, 45 insertions(+), 9 deletions(-)
+
+diff --git a/Assets/Javascript/enviroment.js b/Assets/Javascript/enviroment.js
+index 0b05ba3..7dd4b26 100644
+--- a/Assets/Javascript/enviroment.js
++++ b/Assets/Javascript/enviroment.js
+@@ -2,6 +2,7 @@
+ 
+ import System.IO;
+ import System.Collections.Generic;
++import UnityEngine.UI;
+ 
+ var shelf : Transform;
+ var support : Transform;
+@@ -188,7 +189,7 @@ function Update () {
+ 			
+ 			Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+ 			
+-			if (hitInfo.transform.gameObject.tag == "selectable"){
++			if (hitInfo.collider.tag == "selectable"){
+ 			
+ 				var name : String = hitInfo.transform.gameObject.name;
+ 				
+@@ -198,6 +199,8 @@ function Update () {
+ 				
+ 							if(name == b.id){
+ 								//print("Id: "+ b.id);
++								print("Nome del libro: " + b.title);
++								pauseInfo(b.title);
+ 							}
+ 						}
+ 					}
+@@ -320,8 +323,14 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
+ 	instance = Instantiate(book, pos, transform.rotation);
+ 	//instance.transform.localScale = Vector3(d, h, w);
+ 	instance.localScale = Vector3(d, h, w);	
+-	instance.name = id;
+-	instance.tag = "selectable";
++	//instance.name = id;
++	//instance.tag = "selectable";
++	
++	for (var child : Transform in instance) {
++    // do whatever you want with child transform here
++    	child.name = id;
++    	child.tag = "selectable";
++    }
+ }
+ /*
+ // -- NUOVE CLASSI --
+@@ -374,4 +383,21 @@ class Book {
+ 		this.orientation = or;
+ 		depth = 25;
+ 	}
+-}*/
+\ No newline at end of file
++}*/
++
++//var pauseGameInfo : boolean = false;
++
++
++var canvasMenu : Canvas;
++var title : Text;
++
++function pauseInfo(t : String){
++	Time.timeScale = 0;
++	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
++	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
++	canvasMenu.enabled = true;
++	
++	title = GetComponent.<Text>();
++	title.text = t;
++	
++}
+\ No newline at end of file
+diff --git a/Assets/Javascript/new_cube.js b/Assets/Javascript/new_cube.js
+index 5f0948e..5760369 100644
+--- a/Assets/Javascript/new_cube.js
++++ b/Assets/Javascript/new_cube.js
+@@ -70,9 +70,9 @@ if(Input.GetMouseButton(0)){	//se viene schiacciato il tasto sx del mouse vogli
+ 		
+ 		if (hit){
+ 		
+-			Debug.Log("Hit " + hitInfo.transform.gameObject.name);
++			Debug.Log("Hit " + hitInfo.transform.name);
+ 			
+-			if (hitInfo.transform.gameObject.tag == "selectable")	{
++			if (hitInfo.collider.tag == "selectable")	{
+ 			
+ 				var name : String = hitInfo.transform.gameObject.name;
+ 				
+@@ -100,13 +100,23 @@ if(Input.GetMouseButton(0)){	//se viene schiacciato il tasto sx del mouse vogli
+ function drawCube(){
+ 	
+ 	for(var cb in listCubes){	
+-		var cube : GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+-	
++	/*	var cube : GameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+ 		cube.name = cb.name;
+ 		cube.tag = "selectable";
+ 	
+ 		cube.transform.localScale = Vector3(cb.side, cb.side, cb.side);
+-		cube.transform.position = Vector3(cb.x, cb.side/2, cb.z);		
++		cube.transform.position = Vector3(cb.x, cb.side/2, cb.z);
++	*/
++	
++	var instance : Transform;
++	var pos = Vector3(cb.x, cb.side/2, cb.z);	
++	
++	instance = Instantiate(cub, pos, transform.rotation);
++	instance.localScale = Vector3(cb.side, cb.side, cb.side);	
++	instance.name = cb.name;
++	instance.tag = "selectable";
++	
++		
+ 	}
+ }
+ 
+-- 
+1.9.5.msysgit.0
+

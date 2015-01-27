@@ -59,7 +59,7 @@ class Book {
 	}
 }
 
-/*class NewCube{
+class NewCube{
 
 	var id : String;
 	var name :  String;
@@ -75,7 +75,7 @@ class Book {
 		this.x = x;
 		this.z = z;
 	}
-}*/
+}
 
 
 

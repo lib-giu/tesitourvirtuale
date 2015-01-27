@@ -1,4 +1,4 @@
-﻿/*
+﻿
 #pragma strict
 
 import System.IO;
@@ -22,7 +22,7 @@ function Start () {
 	
 	var sr = new StringReader(www.text);
 	*/
-/*
+
 	try{
 		
 		var info : String[];
@@ -63,7 +63,7 @@ function Start () {
 	
 	sr = new StringReader(www.text);
 	*/
-/*
+
 	sr = new StreamReader("libri.txt");		
 	
 	try{		
@@ -182,7 +182,7 @@ function Update () {
 		var mouseWorldSpace : Vector3 = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);		
 		print(mouseWorldSpace);
 		*/		
-/*	
+
 		var hitInfo : RaycastHit = new RaycastHit();		
 		var hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), hitInfo);
 		
@@ -243,7 +243,7 @@ function drawBookcases(){
 				/*if(b.id.Equals("ea_544-895.dds")){
 					print("h = "+ b.hight);
 				}*/
-/*
+
 				if(bc.rot == 0){
 					createBook(bc.posx+(15-(b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);
 					oz += b.width + 0.5;
