@@ -12,15 +12,15 @@ var listBookcases = new List.<Bookcase>();
 function Start () {
 
 	var line : String;
-	var sr = new StreamReader("posizioni_scaffali.txt");
+//	var sr = new StreamReader("posizioni_scaffali.txt");
 
-/*	var url = "./posizioni_scaffali.txt";
+	var url = "./posizioni_scaffali.txt";
 
 	var www : WWW = new WWW(url);
 	yield www;
 
 	var sr = new StringReader(www.text);
-*/
+
 	try{
 
 		var info : String[];
@@ -52,14 +52,14 @@ function Start () {
 		print(e.Message);
 	}
 	
-	sr = new StreamReader("libri.txt");	
-/*	url = "./libri.txt";
+//	sr = new StreamReader("libri.txt");	
+	url = "./libri.txt";
 
 	www = new WWW(url);
 	yield www;
 	
 	sr = new StringReader(www.text);
-*/
+
 	try{
 		line = sr.ReadLine();
 		
