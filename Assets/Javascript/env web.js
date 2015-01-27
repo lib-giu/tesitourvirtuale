@@ -265,6 +265,7 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
 var title : Text;
+var id : Text;
 
 function Update () {
 
@@ -285,9 +286,9 @@ function Update () {
 						for(var sh in bc.listShelves){
 							for(var b in sh.listBooks){
 								if(b.id == name){
-									print("Titolo del libro:" + b.title);
-									print("Id del libro:" + b.id + " ; Name: " + name);
-									pauseInfo(b.id);
+									//print("Titolo del libro:" + b.title);
+									//print("Id del libro:" + b.id + " ; Name: " + name);
+									pauseInfo(b.title, b.id);
 								}							
 							}
 						}
@@ -303,7 +304,7 @@ function Update () {
 	}
 }
 
-function pauseInfo(t : String){
+function pauseInfo(t : String, id_b : String){
 	
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
@@ -312,6 +313,9 @@ function pauseInfo(t : String){
 	
 	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
 	title.text = t;
+	
+	id = canvasInfoBook.transform.FindChild("id").GetComponent.<Text>();
+	id.text = id_b;
 }
 
 function resumeGame(){
