@@ -11,7 +11,7 @@ var listBookcases = new List.<Bookcase>();
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
+//	var sr = new StreamReader("posizioni_scaffali.txt");
 
 	var url = "./posizioni_scaffali.txt";
 
@@ -51,15 +51,15 @@ function Start () {
 		print(e.Message);
 	}
 	
-	//sr = new StreamReader("libri.txt");	
+//	sr = new StreamReader("libri.txt");	
 
 	url = "./libri.txt";
 
 	www = new WWW(url);
 	yield www;
 	
-	sr = new StringReader(www.text);		
-	
+	sr = new StringReader(www.text);
+
 	try{
 		line = sr.ReadLine();
 		
@@ -155,9 +155,6 @@ function Start () {
 	drawBookcases();
 	
 }//close Start()
-
-function Update () {
-}
 
 function drawBookcases(){	
 
@@ -257,5 +254,69 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);
 	
 	instance = Instantiate(book, pos, transform.rotation);
-	instance.localScale = Vector3(d, h, w);		
+	instance.localScale = Vector3(d, h, w);
+	
+	for(var child : Transform in instance){
+	
+		child.name = id;
+		child.tag = "selectable";
+	}
 }
+
+function Update () {
+
+	if(Input.GetMouseButton(0)){
+		var hitInfo : RaycastHit = new RaycastHit();
+		var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
+		
+		if(hit){
+			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
+			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+			
+			if(hitInfo.collider.tag == "selectable"){
+				var name : String = hitInfo.transform.gameObject.name;
+				
+				for(var bc in listBookcases){
+					for(var sh in bc.listShelves){
+						for(var b in sh.listBooks){
+							if(b.id == name){
+								print("Titolo del libro:" + b.title);
+								print("Id del libro:" + b.id + " ; Name: " + name);
+								pauseInfo(b.title);
+							}							
+						}
+					}
+				}
+				//Debug.Log("It's working");
+			}else{
+				//Debug.Log("Not working");
+			}
+		}else{
+			//Debug.Log("No hit");
+		}
+	}
+}
+
+var canvasInfoBook : Canvas;
+//var title : Text;
+
+function pauseInfo(t : String){
+	
+	Time.timeScale = 0;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
+	canvasInfoBook.enabled = true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
