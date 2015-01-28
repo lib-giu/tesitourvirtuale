@@ -13,8 +13,8 @@ function Start () {
 }
 
 function Update () {
-	if (canvasInfoBook.enabled == false){
-		if (Input.GetKeyDown("escape")){
+	if (canvasInfoBook.enabled == false) {
+		if (Input.GetKeyDown("escape")) {
 
 			pauseGame = !pauseGame;
 
@@ -34,7 +34,7 @@ function Update () {
 	}
 }
 
-function Resume() {
+function Resume () {
 	Time.timeScale = 1;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;

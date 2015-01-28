@@ -51,6 +51,7 @@ function Start () {
 	} catch(e) {
 		print("The file could not be read: ");
 		print(e.Message);
+		return;
 	}
 	
 	//sr = new StreamReader("libri.txt");	
@@ -147,6 +148,7 @@ function Start () {
 	} catch(e) {
 		print("The file could not be read: ");
 		print(e.Message);
+		return;
 	}
 
 	drawBookcases();
@@ -161,7 +163,7 @@ function drawBookcases() {
 			var oy : float = 0.00;
 			var hmax : float = 0.00;
 
-			for(var sh in bc.listShelves) {
+			for (var sh in bc.listShelves) {
 				var oz : float = 0.00;
 				oy += sh.offsety;
 
@@ -190,7 +192,7 @@ function drawBookcases() {
 
 			createShelf(bc.posx, oy + hmax + 15, bc.posz, bc.rot, bc.larg, bc.depth);
 
-			// hmax+0.15 is the position of the last shelf, 0.05 is the thickness of the shelf
+			// hmax + 15 is the position of the last shelf, 5 is the thickness of the shelf
 			createSupport(bc.posx, oy + hmax + 15 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
 		
 		} else {
@@ -204,7 +206,7 @@ function drawBookcases() {
 	}	
 }
 
-function createShelf(posx : float, posy : float, posz : float, rot : int, larg : float, depth : float){
+function createShelf (posx : float, posy : float, posz : float, rot : int, larg : float, depth : float) {
 
 	var instance : Transform;
 	var pos = Vector3(posx, posy, posz);
@@ -214,12 +216,12 @@ function createShelf(posx : float, posy : float, posz : float, rot : int, larg :
 	instance.localScale = Vector3(depth, 1, larg);
 }
 
-function createSupport(posx : float, posy : float, posz : float, rot : int, larg : float, depth : float){
+function createSupport (posx : float, posy : float, posz : float, rot : int, larg : float, depth : float) {
 
 	var instance : Transform;
 	var pos : Vector3;
 	
-	if(rot == 0 || rot ==180){
+	if (rot == 0 || rot == 180){
 	
 		pos = Vector3(posx, -5, posz - (larg/2));
 		instance = Instantiate(support, pos, transform.rotation);
@@ -251,7 +253,7 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	instance = Instantiate(book, pos, transform.rotation);
 	instance.localScale = Vector3(d, h, w);
 	
-	for(var child : Transform in instance){
+	for (var child : Transform in instance) {
 	
 		child.name = id;
 		child.tag = "selectable";
@@ -270,21 +272,21 @@ function Update () {
 		return;  /* nothing to do if we're seeing the help screen */
 	}
 	
-	if (Input.GetMouseButton(0)){
+	if (Input.GetMouseButton(0)) {
 		var hitInfo : RaycastHit = new RaycastHit();
 		var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
 			
-		if(hit){
+		if (hit) {
 			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
 			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
 				
-			if(hitInfo.collider.tag == "selectable"){
+			if (hitInfo.collider.tag == "selectable") {
 				var name : String = hitInfo.transform.gameObject.name;
 					
-				for(var bc in listBookcases){
-					for(var sh in bc.listShelves) {
-						for(var b in sh.listBooks) {
-							if(b.id == name) {
+				for (var bc in listBookcases) {
+					for (var sh in bc.listShelves) {
+						for (var b in sh.listBooks) {
+							if (b.id == name) {
 								//print("Titolo del libro:" + b.title);
 								//print("Id del libro:" + b.id + " ; Name: " + name);
 								pauseInfo(b.title, b.id);
@@ -293,16 +295,16 @@ function Update () {
 					}
 				}
 				//Debug.Log("It's working");
-			}else{
+			} else {
 				//Debug.Log("Not working");
 			}
-		}else{
+		} else {
 			//Debug.Log("No hit");
 		}
 	}
 }
 
-function pauseInfo(t : String, id_b : String){
+function pauseInfo (t : String, id_b : String) {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
@@ -315,7 +317,7 @@ function pauseInfo(t : String, id_b : String){
 	id.text = id_b;
 }
 
-function resumeGame(){
+function resumeGame() {
 	Time.timeScale = 1;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
