@@ -1,5 +1,9 @@
 ﻿#pragma strict
 
+//
+// Data model of this project
+//
+
 function Start () {
 	/* nothing to do */
 }
