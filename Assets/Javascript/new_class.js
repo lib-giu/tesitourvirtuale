@@ -59,25 +59,6 @@ class Book {
 	}
 }
 
-/*class NewCube{
-
-	var id : String;
-	var name :  String;
-	var side : int;
-	var x : float;
-	var z : float;
-	
-	function NewCube(id : String, name : String, side : int, x :float, z : float){
-		
-		this.id = id;
-		this.name = name;
-		this.side = side;
-		this.x = x;
-		this.z = z;
-	}
-}*/
-
-
 
 
 

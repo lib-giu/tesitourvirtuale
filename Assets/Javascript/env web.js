@@ -2,6 +2,7 @@
 
 import System.IO;
 import System.Collections.Generic;
+import UnityEngine.UI;
 
 var shelf : Transform;
 var support : Transform;
@@ -11,9 +12,9 @@ var listBookcases = new List.<Bookcase>();
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali_1.txt");
+//	var sr = new StreamReader("posizioni_scaffali.txt");
 
-	var url = "./posizioni_scaffali_1.txt";
+	var url = "./posizioni_scaffali.txt";
 
 	var www : WWW = new WWW(url);
 	yield www;
@@ -51,15 +52,14 @@ function Start () {
 		print(e.Message);
 	}
 	
-	//sr = new StreamReader("libri-s10-11.txt");	
-
-	url = "./libri-s10-11.txt";
+//	sr = new StreamReader("libri.txt");	
+	url = "./libri.txt";
 
 	www = new WWW(url);
 	yield www;
 	
-	sr = new StringReader(www.text);		
-	
+	sr = new StringReader(www.text);
+
 	try{
 		line = sr.ReadLine();
 		
@@ -99,27 +99,6 @@ function Start () {
 				//print("Scaffale: "+bookcasenum);				
 			}
 					
-		 	/*if(nshelf != shelfnum){
-		 	
-		 		//print("hmax: "+ hmax);
-		 		var sh = new Shelf(nshelf, hmax);
-		 		listBookcases[bookcasenum].listShelves.Add(sh);
-		 		//print("offsety: "+ listBookcases[bookcasenum].listShelves[nshelf].offsety);
-		 		if(h + 15 > hmax){
-					hmax = h  + 15;
-				} 
-		 		shelfnum = nshelf;
-		 		//print("Piano: "+shelfnum);
-		 		
-		 	}else{
-		 	
-			 	if(h + 15 > hmax){
-					hmax = h  + 15;
-				} 			 	
-		 	}*/		
-
-			//nuovo pezzo di codice aggiunto
-
 			if(nshelf != shelfnum){
 			
 				var sh : Shelf;
@@ -159,9 +138,7 @@ function Start () {
 				if(h + 15 > hmax){
 						hmax = h + 15;
 					}
-			}
-			//fine nuovo pezzo di codice aggiuto
-			
+			}			
 			var bk = new Book(id, title, h, w, or);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
@@ -177,10 +154,7 @@ function Start () {
 	
 	drawBookcases();
 	
-}	//close Start()
-
-function Update () {
-}
+}//close Start()
 
 function drawBookcases(){	
 
@@ -280,6 +254,87 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);
 	
 	instance = Instantiate(book, pos, transform.rotation);
-	instance.localScale = Vector3(d, h, w);	
+	instance.localScale = Vector3(d, h, w);
 	
+	for(var child : Transform in instance){
+	
+		child.name = id;
+		child.tag = "selectable";
+	}
 }
+var canvasHelp : Canvas;
+var canvasInfoBook : Canvas;
+var title : Text;
+var id : Text;
+
+function Update () {
+
+	if(canvasHelp.enabled == false){
+	
+		if(Input.GetMouseButton(0)){
+			var hitInfo : RaycastHit = new RaycastHit();
+			var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
+			
+			if(hit){
+				//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
+				//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+				
+				if(hitInfo.collider.tag == "selectable"){
+					var name : String = hitInfo.transform.gameObject.name;
+					
+					for(var bc in listBookcases){
+						for(var sh in bc.listShelves){
+							for(var b in sh.listBooks){
+								if(b.id == name){
+									//print("Titolo del libro:" + b.title);
+									//print("Id del libro:" + b.id + " ; Name: " + name);
+									pauseInfo(b.title, b.id);
+								}							
+							}
+						}
+					}
+					//Debug.Log("It's working");
+				}else{
+					//Debug.Log("Not working");
+				}
+			}else{
+				//Debug.Log("No hit");
+			}
+		}
+	}
+}
+
+function pauseInfo(t : String, id_b : String){
+	
+	Time.timeScale = 0;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
+	canvasInfoBook.enabled = true;
+	
+	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
+	title.text = t;
+	
+	id = canvasInfoBook.transform.FindChild("id").GetComponent.<Text>();
+	id.text = id_b;
+}
+
+function resumeGame(){
+
+	Time.timeScale = 1;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
+	canvasInfoBook.enabled = false;	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

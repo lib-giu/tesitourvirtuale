@@ -1,8 +1,9 @@
-﻿/*
+﻿
 #pragma strict
 
 import System.IO;
 import System.Collections.Generic;
+import UnityEngine.UI;
 
 var shelf : Transform;
 var support : Transform;
@@ -21,7 +22,7 @@ function Start () {
 	
 	var sr = new StringReader(www.text);
 	*/
-/*
+
 	try{
 		
 		var info : String[];
@@ -62,7 +63,7 @@ function Start () {
 	
 	sr = new StringReader(www.text);
 	*/
-/*
+
 	sr = new StreamReader("libri.txt");		
 	
 	try{		
@@ -181,7 +182,7 @@ function Update () {
 		var mouseWorldSpace : Vector3 = Camera.mainCamera.ScreenToWorldPoint(mouseScreenPosition);		
 		print(mouseWorldSpace);
 		*/		
-/*	
+
 		var hitInfo : RaycastHit = new RaycastHit();		
 		var hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), hitInfo);
 		
@@ -191,7 +192,7 @@ function Update () {
 			
 			Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
 			
-			if (hitInfo.transform.gameObject.tag == "selectable"){
+			if (hitInfo.collider.tag == "selectable"){
 			
 				var name : String = hitInfo.transform.gameObject.name;
 				
@@ -201,6 +202,8 @@ function Update () {
 				
 							if(name == b.id){
 								//print("Id: "+ b.id);
+								print("Nome del libro: " + b.title);
+								pauseInfo(b.title);
 							}
 						}
 					}
@@ -240,7 +243,7 @@ function drawBookcases(){
 				/*if(b.id.Equals("ea_544-895.dds")){
 					print("h = "+ b.hight);
 				}*/
-/*
+
 				if(bc.rot == 0){
 					createBook(bc.posx+(15-(b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);
 					oz += b.width + 0.5;
@@ -324,8 +327,14 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	instance = Instantiate(book, pos, transform.rotation);
 	//instance.transform.localScale = Vector3(d, h, w);
 	instance.localScale = Vector3(d, h, w);	
-	instance.name = id;
-	instance.tag = "selectable";
+	//instance.name = id;
+	//instance.tag = "selectable";
+	
+	for (var child : Transform in instance) {
+    // do whatever you want with child transform here
+    	child.name = id;
+    	child.tag = "selectable";
+    }
 }
 /*
 // -- NUOVE CLASSI --
@@ -379,3 +388,20 @@ class Book {
 		depth = 25;
 	}
 }*/
+
+//var pauseGameInfo : boolean = false;
+
+
+var canvasMenu : Canvas;
+var title : Text;
+
+function pauseInfo(t : String){
+	Time.timeScale = 0;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
+	canvasMenu.enabled = true;
+	
+	title = GetComponent.<Text>();
+	title.text = t;
+	
+}
