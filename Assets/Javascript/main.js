@@ -1,5 +1,9 @@
 ﻿#pragma strict
 
+//
+// The "main" scene of this project
+//
+
 import System.IO;
 import System.Collections.Generic;
 import UnityEngine.UI;
@@ -12,17 +16,14 @@ var listBookcases = new List.<Bookcase>();
 function Start () {
 
 	var line : String;
-//	var sr = new StreamReader("posizioni_scaffali.txt");
 
+	//var sr = new StreamReader("posizioni_scaffali.txt");
 	var url = "./posizioni_scaffali.txt";
-
 	var www : WWW = new WWW(url);
 	yield www;
-
 	var sr = new StringReader(www.text);
 
-	try{
-
+	try {
 		var info : String[];
 		var posx : float;
 		var posz : float;
@@ -30,10 +31,10 @@ function Start () {
 		var larg : float;
 		var depth : float;
 
-		//read file with the position of all bookcases
+		// read file with the position of all bookcases
 		line = sr.ReadLine();
 
-		while(line != null){
+		while (line != null) {
 			info = line.Split(";"[0]);
 			posz = float.Parse(info[0]);
 			posx = float.Parse(info[1]);
@@ -47,20 +48,18 @@ function Start () {
 			line = sr.ReadLine();
 		}
 
-	}catch(e){
+	} catch(e) {
 		print("The file could not be read: ");
 		print(e.Message);
 	}
 	
-//	sr = new StreamReader("libri.txt");	
+	//sr = new StreamReader("libri.txt");	
 	url = "./libri.txt";
-
 	www = new WWW(url);
 	yield www;
-	
 	sr = new StringReader(www.text);
 
-	try{
+	try {
 		line = sr.ReadLine();
 		
 		var nbookcase : int;
@@ -78,38 +77,36 @@ function Start () {
 		var shelfnum : int = -1;
 		var hmax = 0.00;
 		
-		while(line != null){
-			
+		while (line != null) {
 			info = line.Split(";"[0]);
-			
+
 			nbookcase = int.Parse(info[0])-1;
 			nshelf = int.Parse(info[1])-1;
 			id = info[2];
 			title = info[3];
 			h = float.Parse(info[4]);
-			//print("h: "+h);
-			w = float.Parse(info[5]) * 0.002 + 0.06; // 0.002: thickness of the sheet of paper; 0.06: thickness of the cover
+			//
+			// 0.002: thickness of the sheet of paper;
+			// 0.06: thickness of the cover
+			//
+			w = float.Parse(info[5]) * 0.002 + 0.06;
 			or = info[6];
-			
-			if(nbookcase != bookcasenum){
-				
+
+			if (nbookcase != bookcasenum) {
 				shelfnum = -1;	
 				hmax = 0.0;
 				bookcasenum = nbookcase;
-				//print("Scaffale: "+bookcasenum);				
 			}
 					
-			if(nshelf != shelfnum){
-			
+			if (nshelf != shelfnum) {
 				var sh : Shelf;
 				
-				if(nshelf - shelfnum > 1){
-				
+				if (nshelf - shelfnum > 1) {
+
 					var punt = nshelf;
 					var off = nshelf - shelfnum - 1;
 					
-					for(var q = 0; q < off; q++){
-						
+					for (var q = 0; q < off; q++) {
 						nshelf = shelfnum + 1;
 						hmax = 30;
 						sh = new Shelf(nshelf, hmax);
@@ -120,12 +117,12 @@ function Start () {
 					sh = new Shelf(punt, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
 					
-					if(h + 15 > hmax){
+					if (h + 15 > hmax) {
 						hmax = h + 15;
 					}
 					shelfnum = punt;
 					
-				}else if(nshelf - shelfnum == 1){
+				} else if (nshelf - shelfnum == 1) {
 					sh = new Shelf(nshelf, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
 					
@@ -134,80 +131,78 @@ function Start () {
 					}
 					shelfnum = nshelf;
 				}
-			}else{				
-				if(h + 15 > hmax){
+			} else {				
+				if (h + 15 > hmax) {
 						hmax = h + 15;
-					}
-			}			
+				}
+			}
+
 			var bk = new Book(id, title, h, w, or);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
 			line = sr.ReadLine();
-		} // fine while
-		
-		sr.Close();	//close StreamReader or StreamReader
-		
-	}catch(e){
+		}
+		sr.Close();
+
+	} catch(e) {
 		print("The file could not be read: ");
 		print(e.Message);
-	}// close try/catch
-	
+	}
+
 	drawBookcases();
-	
-}//close Start()
 
-function drawBookcases(){	
+}
 
-	for(var bc in listBookcases){	// bookcases
-	
-	if(bc.listShelves.Count > 0){
-	
-		var oy : float = 0.00;
-		var hmax : float = 0.00;
-		
-		for(var sh in bc.listShelves){		// shelves in the bookcase			
-			
-			var oz : float = 0.00;
-			oy += sh.offsety;
-		
-			createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
-			
-			for(var b in sh.listBooks){			// books on the shelf
-			
-				if(bc.rot == 0){					
-					createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
-					oz += b.width + 0.5;
+function drawBookcases() {
+	for (var bc in listBookcases) {
+
+		if (bc.listShelves.Count > 0) {
+
+			var oy : float = 0.00;
+			var hmax : float = 0.00;
+
+			for(var sh in bc.listShelves) {
+				var oz : float = 0.00;
+				oy += sh.offsety;
+
+				createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
+
+				for (var b in sh.listBooks) {
+					if(bc.rot == 0){					
+						createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz += b.width + 0.5;
 					
-				} else if(bc.rot == 180){
-					createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
-					oz -= b.width + 0.5;
+					} else if(bc.rot == 180){
+						createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz -= b.width + 0.5;
 					
-				} else if(bc.rot == 90){
-					createBook(bc.posx - (bc.larg/2) + 3 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
-					oz += b.width + 0.5;
+					} else if(bc.rot == 90){
+						createBook(bc.posx - (bc.larg/2) + 3 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz += b.width + 0.5;
 					
-				} else if(bc.rot == -90){
-					createBook(bc.posx + (bc.larg/2) - 3 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
-					oz -= b.width + 0.5;
-				}
-				hmax = b.hight;	
-				
-			}	// close for() books	
-		}	//close for() shelves
+					} else if(bc.rot == -90){
+						createBook(bc.posx + (bc.larg/2) - 3 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz -= b.width + 0.5;
+					}
+					hmax = b.hight;	
+				}	
+			}
+
+			createShelf(bc.posx, oy + hmax + 15, bc.posz, bc.rot, bc.larg, bc.depth);
+
+			// hmax+0.15 is the position of the last shelf, 0.05 is the thickness of the shelf
+			createSupport(bc.posx, oy + hmax + 15 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
 		
-		createShelf(bc.posx, oy + hmax + 15, bc.posz, bc.rot, bc.larg, bc.depth);
-		createSupport(bc.posx, oy + hmax + 15 + 5, bc.posz, bc.rot, bc.larg, bc.depth);	// hmax+0.15 is the position of the last shelf, 0.05 is the thickness of the shelf
-		
-		}else{
+		} else {
 			var offsety = 0.0;
-			for(var i = 0; i < 9; i++){
+			for (var i = 0; i < 9; i++) {
 				createShelf(bc.posx, offsety, bc.posz, bc.rot, bc.larg, bc.depth);
 				offsety += 30;
 			}
 			createSupport(bc.posx, offsety - 30 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
-		}//close else
-	}	// close for() bookcases	
-} //close drawBookcases()
+		}
+	}	
+}
 
 function createShelf(posx : float, posy : float, posz : float, rot : int, larg : float, depth : float){
 
@@ -262,6 +257,8 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 		child.tag = "selectable";
 	}
 }
+
+// Here because they're only used for the update
 var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
 var title : Text;
@@ -269,43 +266,43 @@ var id : Text;
 
 function Update () {
 
-	if(canvasHelp.enabled == false){
+	if (canvasHelp.enabled) {
+		return;  /* nothing to do if we're seeing the help screen */
+	}
 	
-		if(Input.GetMouseButton(0)){
-			var hitInfo : RaycastHit = new RaycastHit();
-			var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
+	if (Input.GetMouseButton(0)){
+		var hitInfo : RaycastHit = new RaycastHit();
+		var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
 			
-			if(hit){
-				//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
-				//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+		if(hit){
+			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
+			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
 				
-				if(hitInfo.collider.tag == "selectable"){
-					var name : String = hitInfo.transform.gameObject.name;
+			if(hitInfo.collider.tag == "selectable"){
+				var name : String = hitInfo.transform.gameObject.name;
 					
-					for(var bc in listBookcases){
-						for(var sh in bc.listShelves){
-							for(var b in sh.listBooks){
-								if(b.id == name){
-									//print("Titolo del libro:" + b.title);
-									//print("Id del libro:" + b.id + " ; Name: " + name);
-									pauseInfo(b.title, b.id);
-								}							
-							}
+				for(var bc in listBookcases){
+					for(var sh in bc.listShelves) {
+						for(var b in sh.listBooks) {
+							if(b.id == name) {
+								//print("Titolo del libro:" + b.title);
+								//print("Id del libro:" + b.id + " ; Name: " + name);
+								pauseInfo(b.title, b.id);
+							}							
 						}
 					}
-					//Debug.Log("It's working");
-				}else{
-					//Debug.Log("Not working");
 				}
+				//Debug.Log("It's working");
 			}else{
-				//Debug.Log("No hit");
+				//Debug.Log("Not working");
 			}
+		}else{
+			//Debug.Log("No hit");
 		}
 	}
 }
 
 function pauseInfo(t : String, id_b : String){
-	
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
@@ -319,22 +316,8 @@ function pauseInfo(t : String, id_b : String){
 }
 
 function resumeGame(){
-
 	Time.timeScale = 1;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
 	canvasInfoBook.enabled = false;	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
