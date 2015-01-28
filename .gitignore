@@ -2,3 +2,12 @@ Library/
 ProjectSettings/
 Temp/
 *.meta
+Assembly-CSharp-firstpass.csproj
+Assembly-CSharp-firstpass-vs.csproj
+Assembly-UnityScript.unityproj
+Assembly-UnityScript-firstpass.unityproj
+Assembly-UnityScript-firstpass-vs.unityproj
+Assembly-UnityScript-vs.unityproj
+tour_virtuale.sln
+tour_virtuale.userprefs
+tour_virtuale-csharp.sln
