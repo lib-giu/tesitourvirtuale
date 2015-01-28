@@ -1,11 +1,11 @@
 ﻿#pragma strict
 
 function Start () {
-
+	/* nothing to do */
 }
 
 function Update () {
-
+	/* nothing to do */
 }
 
 class Bookcase {
