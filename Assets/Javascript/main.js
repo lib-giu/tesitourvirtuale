@@ -12,11 +12,13 @@ var shelf : Transform;
 var support : Transform;
 var book : Transform;
 var listBookcases = new List.<Bookcase>();
+var webSwitch : boolean = true;
+var url : String;
+
 
 function Start () {
 
 	var line : String;
-
 	//var sr = new StreamReader("posizioni_scaffali.txt");
 	var url = "./posizioni_scaffali.txt";
 	var www : WWW = new WWW(url);
