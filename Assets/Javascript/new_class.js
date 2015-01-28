@@ -8,8 +8,6 @@ function Update () {
 
 }
 
-// -- NUOVE CLASSI --
-
 class Bookcase {
 	
 	var posx : float;
@@ -58,30 +56,3 @@ class Book {
 		depth = 25;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
