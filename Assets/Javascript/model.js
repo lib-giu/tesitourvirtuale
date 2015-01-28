@@ -21,7 +21,7 @@ class Bookcase {
 	var depth : float;
 	var listShelves = new List.<Shelf>();
 	
-	function Bookcase(posx : float, posz : float, rot : float, larg : float, depth : float){
+	function Bookcase(posx : float, posz : float, rot : float, larg : float, depth : float) {
 		this.posx = posx;
 		this.posz = posz;
 		this.rot = rot;
@@ -36,7 +36,7 @@ class Shelf {
 	var offsety : float; 
 	var listBooks = new List.<Book>();
 	
-	function Shelf(ns : int, h : float){
+	function Shelf(ns : int, h : float) {
 		this.nshelf = ns;
 		this.offsety = h;
 	}
@@ -51,7 +51,7 @@ class Book {
 	var orientation : String;
 	var depth : float;
 	
-	function Book(id : String, title : String, h : float, w: float, or : String){
+	function Book(id : String, title : String, h : float, w: float, or : String) {
 		this.id = id;
 		this.title = title;
 		this.hight = h;
