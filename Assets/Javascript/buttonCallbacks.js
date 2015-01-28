@@ -1,40 +1,37 @@
 ﻿#pragma strict
 
-function Start () {
+//
+// Callbacks invoked when buttons are pressed
+//
 
+function Start () {
+	/* nothing to do */
 }
 
 function Update () {
-
+	/* nothing to do */
 }
 
-function onClickExit(){
-	
+function onClickExit() {
 	Application.Quit();
 }
 
-function onClickPlay(){
-
+function onClickPlay() {
 	Application.LoadLevel("test web");
 }
 
-function onClickHistory(){
-
+function onClickHistory() {
 	Application.LoadLevel("history");
 }
 
-function onClickHelp(){
-
+function onClickHelp() {
 	Application.LoadLevel("help");
 }
 
-function onClickBack(){
-
+function onClickBack() {
 	Application.LoadLevel("main_menu");
 }
 
-function openWebsite(){
-
+function openWebsite() {
 	Application.OpenURL("https://www.google.it");
 }
-
