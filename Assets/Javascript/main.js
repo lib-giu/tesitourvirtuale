@@ -291,7 +291,7 @@ function Update () {
 							if (b.id == name) {
 								//print("Titolo del libro:" + b.title);
 								//print("Id del libro:" + b.id + " ; Name: " + name);
-								pauseInfo(b.title, b.id);
+								pauseInfo(b.title);
 							}							
 						}
 					}
@@ -306,7 +306,7 @@ function Update () {
 	}
 }
 
-function pauseInfo (t : String, id_b : String) {
+function pauseInfo (t : String) {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
@@ -315,9 +315,6 @@ function pauseInfo (t : String, id_b : String) {
 	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
 	
 	title.text = t.Replace("#","\n");
-	
-	id = canvasInfoBook.transform.FindChild("id").GetComponent.<Text>();
-	id.text = id_b;
 }
 
 function resumeGame() {
