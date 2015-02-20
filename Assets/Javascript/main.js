@@ -81,7 +81,7 @@ function Start () {
 		var hmax = 0.00;
 		
 		while (line != null) {
-			info = line.Split(";"[0]);
+			info = line.Split("|"[0]);
 
 			nbookcase = int.Parse(info[0])-1;
 			nshelf = int.Parse(info[1])-1;
