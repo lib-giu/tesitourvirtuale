@@ -313,7 +313,8 @@ function pauseInfo (t : String, id_b : String) {
 	canvasInfoBook.enabled = true;
 	
 	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
-	title.text = t;
+	
+	title.text = t.Replace("#","\n");
 	
 	id = canvasInfoBook.transform.FindChild("id").GetComponent.<Text>();
 	id.text = id_b;

@@ -19,7 +19,7 @@
 4;2;ea_541-829.dds;La luce;25;25;v
 5;1;ea_541-830.dds;La luce;25;25;v
 5;2;ea_541-831.dds;La luce;25;25;v
-6;1;ea_541-832.dds;La luce;25;25;v
+6;1;ea_541-832.dds;La luce#ciao#bo#la;25;25;v
 8;1;ea_541-833.dds;La luce;25;25;v
 8;1;ea_541-834.dds;La luce;25;25;v
 8;2;ea_541-835.dds;La luce;25;250;v
