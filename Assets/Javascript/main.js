@@ -19,11 +19,11 @@ var url : String;
 function Start () {
 
 	var line : String;
-	var sr = new StreamReader("posizioni_scaffali.txt");
-	//var url = "./posizioni_scaffali.txt";
-	//var www : WWW = new WWW(url);
-	//yield www;
-	//var sr = new StringReader(www.text);
+	//var sr = new StreamReader("posizioni_scaffali.txt");
+	var url = "./posizioni_scaffali.txt";
+	var www : WWW = new WWW(url);
+	yield www;
+	var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -56,11 +56,11 @@ function Start () {
 		return;
 	}
 	
-	sr = new StreamReader("libri.txt");	
-	//url = "./libri.txt";
-	//www = new WWW(url);
-	//yield www;
-	//sr = new StringReader(www.text);
+	//sr = new StreamReader("libri.txt");	
+	url = "./libri.txt";
+	www = new WWW(url);
+	yield www;
+	sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();

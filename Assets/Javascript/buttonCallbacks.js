@@ -34,4 +34,5 @@ function onClickBack() {
 
 function openWebsite() {
 	Application.OpenURL("https://www.google.it");
+	//Application.ExternalEval("https://www.google.it");
 }
