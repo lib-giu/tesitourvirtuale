@@ -21,11 +21,11 @@ var urlCatalog : String;
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
-	var url = "./posizioni_scaffali.txt";
-	var www : WWW = new WWW(url);
-	yield www;
-	var sr = new StringReader(www.text);
+	var sr = new StreamReader("posizioni_scaffali.txt");
+	//var url = "./posizioni_scaffali.txt";
+	//var www : WWW = new WWW(url);
+	//yield www;
+	//var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -58,11 +58,11 @@ function Start () {
 		return;
 	}
 	
-	//sr = new StreamReader("libri.txt");	
-	url = "./libri.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("libri.txt");	
+	//url = "./libri.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -272,6 +272,7 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
 var title : Text;
+var frontispiece : Image;
 
 function Update () {
 
@@ -319,9 +320,16 @@ function pauseInfo (t : String) {
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
 	canvasInfoBook.enabled = true;
 	
-	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
-	
+	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();	
 	title.text = t.Replace("#","\n");
+	
+	frontispiece = 	canvasInfoBook.transform.FindChild("RawImage").GetComponent.<Image>();
+	//frontispiece.overrideSprite = Resources.Load.<Sprite>("004_602.jpg");
+	Resources.Load.<RawImage>("004_602.jpg");
+	//frontispiece.sprite.name = "004_602.jpg";
+	
+	
+	//Obj.transform.GetChild(0).GetComponent<Image>.overrideSprite =  Resources.Load<Sprite>("Textures/sprite");
 }
 
 function resumeGame() {
