@@ -19,11 +19,11 @@ var url : String;
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
-	var url = "./posizioni_scaffali.txt";
-	var www : WWW = new WWW(url);
-	yield www;
-	var sr = new StringReader(www.text);
+	var sr = new StreamReader("posizioni_scaffali.txt");
+	//var url = "./posizioni_scaffali.txt";
+	//var www : WWW = new WWW(url);
+	//yield www;
+	//var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -56,11 +56,11 @@ function Start () {
 		return;
 	}
 	
-	//sr = new StreamReader("libri.txt");	
-	url = "./libri.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("libri.txt");	
+	//url = "./libri.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -71,7 +71,6 @@ function Start () {
 		var title : String;
 		var h : float;
 		var w : float;
-		var or : String;
 		
 		var listShelves = new List.<Shelf>();
 		var listBooks = new List.<Book>();
@@ -92,8 +91,9 @@ function Start () {
 			// 0.002: thickness of the sheet of paper;
 			// 0.06: thickness of the cover
 			//
-			w = float.Parse(info[5]) * 0.002 + 0.06;
-			or = info[6];
+			//w = float.Parse(info[5]) * 0.002 + 0.06;
+			//
+			w = float.Parse(info[5])/10;
 
 			if (nbookcase != bookcasenum) {
 				shelfnum = -1;	
@@ -140,7 +140,7 @@ function Start () {
 				}
 			}
 
-			var bk = new Book(id, title, h, w, or);
+			var bk = new Book(id, title, h, w);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
 			line = sr.ReadLine();

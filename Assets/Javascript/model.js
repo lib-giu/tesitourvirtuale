@@ -47,16 +47,14 @@ class Book {
 	var id : String;
 	var title : String;
 	var hight : float;
-	var width : float;
-	var orientation : String;
+	var width : float;	
 	var depth : float;
 	
-	function Book(id : String, title : String, h : float, w: float, or : String) {
+	function Book(id : String, title : String, h : float, w: float) {
 		this.id = id;
 		this.title = title;
 		this.hight = h;
 		this.width = w;
-		this.orientation = or;
 		depth = 25;
 	}
 }
