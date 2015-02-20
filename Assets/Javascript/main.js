@@ -14,6 +14,8 @@ var book : Transform;
 var listBookcases = new List.<Bookcase>();
 var webSwitch : boolean = true;
 var url : String;
+var urlPdf : String;
+var urlCatalog : String;
 
 
 function Start () {
@@ -71,6 +73,8 @@ function Start () {
 		var title : String;
 		var h : float;
 		var w : float;
+		var linkPdf : String;
+		var linkCatalog : String;
 		
 		var listShelves = new List.<Shelf>();
 		var listBooks = new List.<Book>();
@@ -94,6 +98,8 @@ function Start () {
 			//w = float.Parse(info[5]) * 0.002 + 0.06;
 			//
 			w = float.Parse(info[5])/10;
+			linkPdf = info[6];
+			linkCatalog = info[7];
 
 			if (nbookcase != bookcasenum) {
 				shelfnum = -1;	
@@ -140,7 +146,7 @@ function Start () {
 				}
 			}
 
-			var bk = new Book(id, title, h, w);
+			var bk = new Book(id, title, h, w, linkPdf, linkCatalog);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
 			line = sr.ReadLine();
@@ -266,7 +272,6 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
 var title : Text;
-var id : Text;
 
 function Update () {
 
@@ -291,6 +296,8 @@ function Update () {
 							if (b.id == name) {
 								//print("Titolo del libro:" + b.title);
 								//print("Id del libro:" + b.id + " ; Name: " + name);
+								urlPdf = b.linkPdf;							
+								urlCatalog = b.linkCatalog;
 								pauseInfo(b.title);
 							}							
 						}
@@ -322,4 +329,12 @@ function resumeGame() {
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
 	canvasInfoBook.enabled = false;	
+}
+
+function openPdf() {
+	Application.ExternalEval("window.open('" + urlPdf + "','_blank')");	
+}
+
+function openCatalog() {
+	Application.ExternalEval("window.open('" + urlCatalog + "','_blank')");	
 }
