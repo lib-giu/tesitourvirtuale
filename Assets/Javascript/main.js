@@ -13,19 +13,19 @@ var support : Transform;
 var book : Transform;
 var listBookcases = new List.<Bookcase>();
 var webSwitch : boolean = true;
-var url : String;
 var urlPdf : String;
 var urlCatalog : String;
+var url_biblio :String;
 
 
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
-	var url = "./posizioni_scaffali.txt";
-	var www : WWW = new WWW(url);
-	yield www;
-	var sr = new StringReader(www.text);
+	var sr = new StreamReader("posizioni_scaffali.txt");
+	//var url = "./posizioni_scaffali.txt";
+	//var www : WWW = new WWW(url);
+	//yield www;
+	//var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -58,11 +58,28 @@ function Start () {
 		return;
 	}
 	
-	//sr = new StreamReader("libri.txt");	
-	url = "./libri.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("img_url.txt");
+	//url = "./img_url.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
+	
+	try {
+		url_biblio = sr.ReadLine();
+
+	} catch(e) {
+		print("The file could not be read: ");
+		print(e.Message);
+		return;
+	}
+	
+	
+	
+	sr = new StreamReader("libri.txt");	
+	//url = "./libri.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -75,6 +92,7 @@ function Start () {
 		var w : float;
 		var linkPdf : String;
 		var linkCatalog : String;
+		var imgUrl : String;
 		
 		var listShelves = new List.<Shelf>();
 		var listBooks = new List.<Book>();
@@ -100,6 +118,7 @@ function Start () {
 			w = float.Parse(info[5])/10;
 			linkPdf = info[6];
 			linkCatalog = info[7];
+			imgUrl = info[8];
 
 			if (nbookcase != bookcasenum) {
 				shelfnum = -1;	
@@ -146,7 +165,7 @@ function Start () {
 				}
 			}
 
-			var bk = new Book(id, title, h, w, linkPdf, linkCatalog);
+			var bk = new Book(id, title, h, w, linkPdf, linkCatalog, imgUrl);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
 			line = sr.ReadLine();
@@ -299,7 +318,7 @@ function Update () {
 								//print("Id del libro:" + b.id + " ; Name: " + name);
 								urlPdf = b.linkPdf;							
 								urlCatalog = b.linkCatalog;
-								pauseInfo(b.title);
+								pauseInfo(b.title, b.imgUrl);
 							}							
 						}
 					}
@@ -314,7 +333,7 @@ function Update () {
 	}
 }
 
-function pauseInfo (t : String) {
+function pauseInfo (t : String, img : String) {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
@@ -323,8 +342,9 @@ function pauseInfo (t : String) {
 	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();	
 	title.text = t.Replace("#","\n");
 		
-	var path : String = "http://biblio.polito.it/sala_antichi/frontespizi/004_602.jpg";
-	var www : WWW = new WWW(path);
+	//var path : String = "http://biblio.polito.it/sala_antichi/frontespizi/004_602.jpg";
+	
+	var www = new WWW(url_biblio + "" + img);
 	yield www;
 	
 	var spriteT : Sprite = new Sprite();

@@ -51,15 +51,17 @@ class Book {
 	var depth : float;
 	var linkPdf : String;
 	var linkCatalog : String;
+	var imgUrl : String;
 	
 	
-	function Book(id : String, title : String, h : float, w: float, linkPdf : String, linkCatalog : String) {
+	function Book(id : String, title : String, h : float, w: float, linkPdf : String, linkCatalog : String, imgUrl : String) {
 		this.id = id;
 		this.title = title;
 		this.hight = h;
 		this.width = w;
 		this.linkPdf = linkPdf;
 		this.linkCatalog = linkCatalog;
+		this.imgUrl = imgUrl;
 		depth = 25;
 	}
 }
