@@ -13,6 +13,7 @@ var support : Transform;
 var book : Transform;
 var listBookcases = new List.<Bookcase>();
 var webSwitch : boolean = true;
+var url : String;
 var urlPdf : String;
 var urlCatalog : String;
 var url_biblio :String;
