@@ -21,11 +21,11 @@ var urlCatalog : String;
 function Start () {
 
 	var line : String;
-	var sr = new StreamReader("posizioni_scaffali.txt");
-	//var url = "./posizioni_scaffali.txt";
-	//var www : WWW = new WWW(url);
-	//yield www;
-	//var sr = new StringReader(www.text);
+	//var sr = new StreamReader("posizioni_scaffali.txt");
+	var url = "./posizioni_scaffali.txt";
+	var www : WWW = new WWW(url);
+	yield www;
+	var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -58,11 +58,11 @@ function Start () {
 		return;
 	}
 	
-	sr = new StreamReader("libri.txt");	
-	//url = "./libri.txt";
-	//www = new WWW(url);
-	//yield www;
-	//sr = new StringReader(www.text);
+	//sr = new StreamReader("libri.txt");	
+	url = "./libri.txt";
+	www = new WWW(url);
+	yield www;
+	sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -322,14 +322,17 @@ function pauseInfo (t : String) {
 	
 	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();	
 	title.text = t.Replace("#","\n");
+		
+	var path : String = "http://biblio.polito.it/sala_antichi/frontespizi/004_602.jpg";
+	var www : WWW = new WWW(path);
+	yield www;
 	
-	frontispiece = 	canvasInfoBook.transform.FindChild("RawImage").GetComponent.<Image>();
-	//frontispiece.overrideSprite = Resources.Load.<Sprite>("004_602.jpg");
-	Resources.Load.<RawImage>("004_602.jpg");
-	//frontispiece.sprite.name = "004_602.jpg";
+	var spriteT : Sprite = new Sprite();
+	var tex : Texture2D = new Texture2D(2,2, TextureFormat.RGB24, false);
+	spriteT = Sprite.Create(www.texture, new Rect(0, 0, 744, 1052),new Vector2(0, 0),100.0f);
 	
-	
-	//Obj.transform.GetChild(0).GetComponent<Image>.overrideSprite =  Resources.Load<Sprite>("Textures/sprite");
+	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
+	frontispiece.sprite = spriteT;	
 }
 
 function resumeGame() {
