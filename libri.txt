@@ -1,37 +1,37 @@
-1;1;ea_541-811.dds;La luce;25;25;v
-1;2;ea_541-812.dds;La luce;25;25;o
-1;2;ea_541-813.dds;La luce;25;25;o
-1;2;ea_541-814.dds;La luce;25;25;o
-1;2;ea_541-815.dds;La luce;25;25;o
-1;4;ea_541-816.dds;La luce;25;25;v
-1;5;ea_541-817.dds;La luce;25;25;v
-1;6;ea_541-818.dds;La luce;15;25;v
-2;1;ea_541-819.dds;La luce;25;250;v
-2;1;ea_542-820.dds;La luce;20;40;v
-2;2;ea_543-821.dds;La luce;28;100;v
-2;3;ea_548-822.dds;La luce;35;220;v
-3;1;ea_544-823.dds;La luce;25;28;v
-3;1;ea_545-824.dds;La luce;28;60;v
-3;2;ea_546-825.dds;La luce;30;200;v
-3;2;ea_547-826.dds;La luce;20;250;v
-3;3;ea_549-827.dds;La luce;22;200;v
-4;1;ea_541-828.dds;La luce;25;25;v
-4;2;ea_541-829.dds;La luce;25;25;v
-5;1;ea_541-830.dds;La luce;25;25;v
-5;2;ea_541-831.dds;La luce;25;25;v
-6;1;ea_541-832.dds;La luce#ciao#bo#la;25;25;v
-8;1;ea_541-833.dds;La luce;25;25;v
-8;1;ea_541-834.dds;La luce;25;25;v
-8;2;ea_541-835.dds;La luce;25;250;v
-9;1;ea_542-836.dds;La luce;20;40;v
-9;1;ea_543-837.dds;La luce;28;100;v
-10;1;ea_548-838.dds;La luce;35;220;v
-10;1;ea_548-839.dds;La luce;30;220;v
-10;1;ea_548-840.dds;La luce;30;220;v
-10;1;ea_548-841.dds;La luce;30;220;v
-11;1;ea_548-842.dds;La luce;35;220;v
-11;2;ea_544-843.dds;La luce;35;28;v
-12;1;ea_545-844.dds;La luce;28;60;v
-13;1;ea_546-845.dds;La luce;30;200;v
-14;1;ea_547-846.dds;La luce;0.20;250;v
-14;1;ea_549-847.dds;La luce;0.22;200;v
+1|1|ea_541-811.dds|La luce|25|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|2|ea_541-812.dds|La luce|25|80| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|2|ea_541-813.dds|La luce|25|120| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|2|ea_541-814.dds|La luce|25|50| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|2|ea_541-815.dds|La luce|25|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|4|ea_541-816.dds|La luce|25|10| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|5|ea_541-817.dds|La luce|25|30| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+1|6|ea_541-818.dds|La luce|15|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+2|1|ea_541-819.dds|La luce|25|80| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+2|1|ea_542-820.dds|La luce|20|90| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+2|2|ea_543-821.dds|La luce|28|50|https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+2|3|ea_548-822.dds|La luce|35|56| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+3|1|ea_544-823.dds|La luce|25|89| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+3|1|ea_545-824.dds|La luce|28|12| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+3|2|ea_546-825.dds|La luce|30|50| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+3|2|ea_547-826.dds|La luce|20|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+3|3|ea_549-827.dds|La luce|22|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+4|1|ea_541-828.dds|La luce|25|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+4|2|ea_541-829.dds|La luce|25|50| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+5|1|ea_541-830.dds|La luce|25|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+5|2|ea_541-831.dds|La luce|25|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+6|1|ea_541-832.dds|Cognome, Nome#Titolo e descrizione varia#altre informazioni della bibliografia|25|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+8|1|ea_541-833.dds|La luce|25|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+8|1|ea_541-834.dds|La luce|25|30| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+8|2|ea_541-835.dds|La luce|25|40| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+9|1|ea_542-836.dds|La luce|20|50| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+9|1|ea_543-837.dds|La luce|28|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+10|1|ea_548-838.dds|La luce|35|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+10|1|ea_548-839.dds|La luce|30|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+10|1|ea_548-840.dds|La luce|30|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+10|1|ea_548-841.dds|La luce|30|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+11|1|ea_548-842.dds|La luce|35|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+11|2|ea_544-843.dds|La luce|35|70| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+12|1|ea_545-844.dds|La luce|28|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+13|1|ea_546-845.dds|La luce|30|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+14|1|ea_547-846.dds|La luce|20|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg
+14|1|ea_549-847.dds|La luce|22|60| https://www.nikonschool.it/experience/qtvr.php|https://www.nikonschool.it/experience/qtvr.php|004_602.jpg

@@ -33,5 +33,9 @@ function onClickBack() {
 }
 
 function openWebsite() {
-	Application.OpenURL("https://www.google.it");
+	//Application.OpenURL("https://www.google.it");
+	var url = "https://www.google.it";
+	Application.ExternalEval("window.open('" + url + "','_blank')");
+	
 }
+

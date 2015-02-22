@@ -14,16 +14,19 @@ var book : Transform;
 var listBookcases = new List.<Bookcase>();
 var webSwitch : boolean = true;
 var url : String;
+var urlPdf : String;
+var urlCatalog : String;
+var url_biblio :String;
 
 
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
-	var url = "./posizioni_scaffali.txt";
-	var www : WWW = new WWW(url);
-	yield www;
-	var sr = new StringReader(www.text);
+	var sr = new StreamReader("posizioni_scaffali.txt");
+	//var url = "./posizioni_scaffali.txt";
+	//var www : WWW = new WWW(url);
+	//yield www;
+	//var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -56,11 +59,28 @@ function Start () {
 		return;
 	}
 	
-	//sr = new StreamReader("libri.txt");	
-	url = "./libri.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("img_url.txt");
+	//url = "./img_url.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
+	
+	try {
+		url_biblio = sr.ReadLine();
+
+	} catch(e) {
+		print("The file could not be read: ");
+		print(e.Message);
+		return;
+	}
+	
+	
+	
+	sr = new StreamReader("libri.txt");	
+	//url = "./libri.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -71,7 +91,9 @@ function Start () {
 		var title : String;
 		var h : float;
 		var w : float;
-		var or : String;
+		var linkPdf : String;
+		var linkCatalog : String;
+		var imgUrl : String;
 		
 		var listShelves = new List.<Shelf>();
 		var listBooks = new List.<Book>();
@@ -81,7 +103,7 @@ function Start () {
 		var hmax = 0.00;
 		
 		while (line != null) {
-			info = line.Split(";"[0]);
+			info = line.Split("|"[0]);
 
 			nbookcase = int.Parse(info[0])-1;
 			nshelf = int.Parse(info[1])-1;
@@ -92,8 +114,12 @@ function Start () {
 			// 0.002: thickness of the sheet of paper;
 			// 0.06: thickness of the cover
 			//
-			w = float.Parse(info[5]) * 0.002 + 0.06;
-			or = info[6];
+			//w = float.Parse(info[5]) * 0.002 + 0.06;
+			//
+			w = float.Parse(info[5])/10;
+			linkPdf = info[6];
+			linkCatalog = info[7];
+			imgUrl = info[8];
 
 			if (nbookcase != bookcasenum) {
 				shelfnum = -1;	
@@ -140,7 +166,7 @@ function Start () {
 				}
 			}
 
-			var bk = new Book(id, title, h, w, or);
+			var bk = new Book(id, title, h, w, linkPdf, linkCatalog, imgUrl);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
 			line = sr.ReadLine();
@@ -266,7 +292,7 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
 var title : Text;
-var id : Text;
+var frontispiece : Image;
 
 function Update () {
 
@@ -291,7 +317,9 @@ function Update () {
 							if (b.id == name) {
 								//print("Titolo del libro:" + b.title);
 								//print("Id del libro:" + b.id + " ; Name: " + name);
-								pauseInfo(b.title, b.id);
+								urlPdf = b.linkPdf;							
+								urlCatalog = b.linkCatalog;
+								pauseInfo(b.title, b.imgUrl);
 							}							
 						}
 					}
@@ -306,18 +334,26 @@ function Update () {
 	}
 }
 
-function pauseInfo (t : String, id_b : String) {
+function pauseInfo (t : String, img : String) {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
 	canvasInfoBook.enabled = true;
 	
-	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();
-	
+	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();	
 	title.text = t.Replace("#","\n");
+		
+	//var path : String = "http://biblio.polito.it/sala_antichi/frontespizi/004_602.jpg";
 	
-	id = canvasInfoBook.transform.FindChild("id").GetComponent.<Text>();
-	id.text = id_b;
+	var www = new WWW(url_biblio + "" + img);
+	yield www;
+	
+	var spriteT : Sprite = new Sprite();
+	var tex : Texture2D = new Texture2D(2,2, TextureFormat.RGB24, false);
+	spriteT = Sprite.Create(www.texture, new Rect(0, 0, 744, 1052),new Vector2(0, 0),100.0f);
+	
+	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
+	frontispiece.sprite = spriteT;	
 }
 
 function resumeGame() {
@@ -325,4 +361,12 @@ function resumeGame() {
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
 	canvasInfoBook.enabled = false;	
+}
+
+function openPdf() {
+	Application.ExternalEval("window.open('" + urlPdf + "','_blank')");	
+}
+
+function openCatalog() {
+	Application.ExternalEval("window.open('" + urlCatalog + "','_blank')");	
 }
