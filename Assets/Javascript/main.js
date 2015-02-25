@@ -114,7 +114,7 @@ function Start () {
 			//
 			//w = float.Parse(info[5]) * 0.002 + 0.06;
 			//
-			w = float.Parse(info[5])/10;
+			w = float.Parse(info[5]);
 			linkPdf = info[6];
 			linkCatalog = info[7];
 			imgUrl = info[8];
@@ -144,8 +144,8 @@ function Start () {
 					sh = new Shelf(punt, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
 					
-					if (h + 15 > hmax) {
-						hmax = h + 15;
+					if (h + 5 > hmax) {
+						hmax = h + 5;
 					}
 					shelfnum = punt;
 					
@@ -153,14 +153,14 @@ function Start () {
 					sh = new Shelf(nshelf, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
 					
-					if(h + 15 > hmax){
-						hmax = h + 15;
+					if(h + 5 > hmax){
+						hmax = h + 5;
 					}
 					shelfnum = nshelf;
 				}
 			} else {				
-				if (h + 15 > hmax) {
-						hmax = h + 15;
+				if (h + 5 > hmax) {
+						hmax = h + 5;
 				}
 			}
 
@@ -197,20 +197,20 @@ function drawBookcases() {
 
 				for (var b in sh.listBooks) {
 					if(bc.rot == 0){					
-						createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
-						oz += b.width + 0.5;
+						createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 1 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz += b.width + 0.1;
 					
 					} else if(bc.rot == 180){
-						createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 3 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
-						oz -= b.width + 0.5;
+						createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 1 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz -= b.width + 0.1;
 					
 					} else if(bc.rot == 90){
-						createBook(bc.posx - (bc.larg/2) + 3 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
-						oz += b.width + 0.5;
+						createBook(bc.posx - (bc.larg/2) + 1 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz += b.width + 0.1;
 					
 					} else if(bc.rot == -90){
-						createBook(bc.posx + (bc.larg/2) - 3 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
-						oz -= b.width + 0.5;
+						createBook(bc.posx + (bc.larg/2) - 1 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+						oz -= b.width + 0.1;
 					}
 					hmax = b.hight;	
 				}	
@@ -298,36 +298,38 @@ function Update () {
 		return;  /* nothing to do if we're seeing the help screen */
 	}
 	
-	if (Input.GetMouseButton(0)) {
-		var hitInfo : RaycastHit = new RaycastHit();
-		var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
-			
-		if (hit) {
-			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
-			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+	if(!canvasInfoBook.enabled){	
+		if (Input.GetMouseButton(0)) {
+			var hitInfo : RaycastHit = new RaycastHit();
+			var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
 				
-			if (hitInfo.collider.tag == "selectable") {
-				var name : String = hitInfo.transform.gameObject.name;
+			if (hit) {
+				//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
+				//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
 					
-				for (var bc in listBookcases) {
-					for (var sh in bc.listShelves) {
-						for (var b in sh.listBooks) {
-							if (b.id == name) {
-								//print("Titolo del libro:" + b.title);
-								//print("Id del libro:" + b.id + " ; Name: " + name);
-								urlPdf = b.linkPdf;							
-								urlCatalog = b.linkCatalog;
-								pauseInfo(b.title, b.imgUrl);
-							}							
+				if (hitInfo.collider.tag == "selectable") {
+					var name : String = hitInfo.transform.gameObject.name;
+						
+					for (var bc in listBookcases) {
+						for (var sh in bc.listShelves) {
+							for (var b in sh.listBooks) {
+								if (b.id == name) {
+									//print("Titolo del libro:" + b.title);
+									//print("Id del libro:" + b.id + " ; Name: " + name);
+									urlPdf = b.linkPdf;							
+									urlCatalog = b.linkCatalog;
+									pauseInfo(b.title, b.imgUrl);
+								}							
+							}
 						}
 					}
+					//Debug.Log("It's working");
+				} else {
+					//Debug.Log("Not working");
 				}
-				//Debug.Log("It's working");
 			} else {
-				//Debug.Log("Not working");
+				//Debug.Log("No hit");
 			}
-		} else {
-			//Debug.Log("No hit");
 		}
 	}
 }

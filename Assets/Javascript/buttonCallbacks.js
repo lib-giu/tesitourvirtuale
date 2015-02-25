@@ -12,10 +12,6 @@ function Update () {
 	/* nothing to do */
 }
 
-function onClickExit() {
-	Application.Quit();
-}
-
 function onClickPlay() {
 	Application.LoadLevel("test web");
 }
@@ -31,11 +27,3 @@ function onClickHelp() {
 function onClickBack() {
 	Application.LoadLevel("main_menu");
 }
-
-function openWebsite() {
-	//Application.OpenURL("https://www.google.it");
-	var url = "https://www.google.it";
-	Application.ExternalEval("window.open('" + url + "','_blank')");
-	
-}
-
