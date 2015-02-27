@@ -133,9 +133,14 @@ function Start () {
 					var punt = nshelf;
 					var off = nshelf - shelfnum - 1;
 					
+					
 					for (var q = 0; q < off; q++) {
 						nshelf = shelfnum + 1;
-						hmax = 30;
+						if (nshelf == 0) {
+							hmax = 0;
+						}else {
+							hmax = 30;
+						}						
 						sh = new Shelf(nshelf, hmax);
 						listBookcases[bookcasenum].listShelves.Add(sh);
 						shelfnum = nshelf;
@@ -149,7 +154,8 @@ function Start () {
 					}
 					shelfnum = punt;
 					
-				} else if (nshelf - shelfnum == 1) {
+				} else if (nshelf - shelfnum == 1) {			
+					
 					sh = new Shelf(nshelf, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
 					hmax = 0;

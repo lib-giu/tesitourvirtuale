@@ -35,9 +35,13 @@ class Shelf {
 	var nshelf : int;
 	var offsety : float; 
 	var listBooks = new List.<Book>();
+	var hmax : float = 40;
 	
 	function Shelf(ns : int, h : float) {
-		this.nshelf = ns;
+		this.nshelf = ns;		
+		if(h > hmax){
+			h = hmax + 5;
+		}
 		this.offsety = h;
 	}
 }
@@ -52,11 +56,15 @@ class Book {
 	var linkPdf : String;
 	var linkCatalog : String;
 	var imgUrl : String;
+	var hmax : float = 40;
 	
 	
 	function Book(id : String, title : String, h : float, w: float, linkPdf : String, linkCatalog : String, imgUrl : String) {
 		this.id = id;
 		this.title = title;
+		if(h > hmax){
+			h = hmax;
+		}
 		this.hight = h;
 		this.width = w;
 		this.linkPdf = linkPdf;
