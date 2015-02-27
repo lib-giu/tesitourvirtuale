@@ -152,6 +152,7 @@ function Start () {
 				} else if (nshelf - shelfnum == 1) {
 					sh = new Shelf(nshelf, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
+					hmax = 0;
 					
 					if(h + 5 > hmax){
 						hmax = h + 5;
@@ -216,10 +217,10 @@ function drawBookcases() {
 				}	
 			}
 
-			createShelf(bc.posx, oy + hmax + 15, bc.posz, bc.rot, bc.larg, bc.depth);
+			createShelf(bc.posx, oy + hmax + 5, bc.posz, bc.rot, bc.larg, bc.depth);
 
 			// hmax + 15 is the position of the last shelf, 5 is the thickness of the shelf
-			createSupport(bc.posx, oy + hmax + 15 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
+			createSupport(bc.posx, oy + hmax + 5 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
 		
 		} else {
 			var offsety = 0.0;
