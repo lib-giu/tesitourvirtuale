@@ -21,7 +21,8 @@ class Bookcase {
 	var depth : float;
 	var listShelves = new List.<Shelf>();
 	
-	function Bookcase(posx : float, posz : float, rot : float, larg : float, depth : float) {
+	function Bookcase(posx : float, posz : float,
+					rot : float, larg : float, depth : float) {
 		this.posx = posx;
 		this.posz = posz;
 		this.rot = rot;
@@ -59,7 +60,8 @@ class Book {
 	var hmax : float = 40;
 	
 	
-	function Book(id : String, title : String, h : float, w: float, linkPdf : String, linkCatalog : String, imgUrl : String) {
+	function Book(id : String, title : String, h : float, w: float,
+				linkPdf : String, linkCatalog : String, imgUrl : String) {
 		this.id = id;
 		this.title = title;
 		if(h > hmax){
