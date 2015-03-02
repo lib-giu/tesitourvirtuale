@@ -298,6 +298,7 @@ var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
 var title : Text;
 var frontispiece : Image;
+var pdf_button : Button;
 
 function Update () {
 
@@ -349,8 +350,10 @@ function pauseInfo (t : String, img : String) {
 	
 	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();	
 	title.text = t.Replace("#","\n");
-		
-	//var path : String = "http://biblio.polito.it/sala_antichi/frontespizi/004_602.jpg";
+	
+	if (urlPdf.Equals("")) {
+		canvasInfoBook.transform.FindChild("pdf").GetComponent.<Button>().interactable = false;
+	}
 	
 	var www = new WWW(url_biblio + "" + img);
 	yield www;
@@ -361,6 +364,7 @@ function pauseInfo (t : String, img : String) {
 	
 	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
 	frontispiece.sprite = spriteT;	
+	
 }
 
 function resumeGame() {
@@ -371,7 +375,7 @@ function resumeGame() {
 }
 
 function openPdf() {
-	Application.ExternalEval("window.open('" + urlPdf + "','_blank')");	
+		Application.ExternalEval("window.open('" + urlPdf + "','_blank')");		
 }
 
 function openCatalog() {
