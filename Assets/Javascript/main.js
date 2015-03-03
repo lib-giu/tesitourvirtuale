@@ -98,7 +98,7 @@ function Start () {
 		
 		var bookcasenum : int = -1;
 		var shelfnum : int = -1;
-		var hmax = 0.00;
+		var hmax = 0;
 		
 		while (line != null) {
 			info = line.Split("|"[0]);
@@ -118,15 +118,21 @@ function Start () {
 			linkPdf = info[6];
 			linkCatalog = info[7];
 			imgUrl = info[8];
+			
+			var sh : Shelf;
 
 			if (nbookcase != bookcasenum) {
+				if (shelfnum != -1) {
+					sh = new Shelf(shelfnum, hmax);
+					listBookcases[bookcasenum].listShelves.Add(sh);
+				}				
 				shelfnum = -1;	
-				hmax = 0.0;
+				hmax = 0;
 				bookcasenum = nbookcase;
 			}
 					
 			if (nshelf != shelfnum) {
-				var sh : Shelf;
+				
 				
 				if (nshelf - shelfnum > 1) {
 
@@ -155,27 +161,24 @@ function Start () {
 					shelfnum = punt;
 					
 				} else if (nshelf - shelfnum == 1) {			
-					
+					print("nscaffale: " + nshelf + " ; hmax: " + hmax);
 					sh = new Shelf(nshelf, hmax);
 					listBookcases[bookcasenum].listShelves.Add(sh);
-					hmax = 0;
-					
-					if(h + 5 > hmax){
-						hmax = h + 5;
-					}
+					hmax = h + 5;
 					shelfnum = nshelf;
 				}
 			} else {				
 				if (h + 5 > hmax) {
-						hmax = h + 5;
+					hmax = h + 5;
 				}
 			}
-
 			var bk = new Book(id, title, h, w, linkPdf, linkCatalog, imgUrl);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
 			line = sr.ReadLine();
 		}
+		sh = new Shelf(shelfnum, hmax);
+		listBookcases[bookcasenum].listShelves.Add(sh);
 		sr.Close();
 
 	} catch(e) {
@@ -190,17 +193,17 @@ function Start () {
 
 function drawBookcases() {
 	for (var bc in listBookcases) {
-
 		if (bc.listShelves.Count > 0) {
 
 			var oy : float = 0.00;
-			var hmax : float = 0.00;
+			//var hmax : float = 0.00;
 
 			for (var sh in bc.listShelves) {
 				var oz : float = 0.00;
 				oy += sh.offsety;
 
 				createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
+				//hmax = sh.offsety;
 
 				for (var b in sh.listBooks) {
 					if(bc.rot == 0){					
@@ -218,15 +221,17 @@ function drawBookcases() {
 					} else if(bc.rot == -90){
 						createBook(bc.posx + (bc.larg/2) - 1 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
 						oz -= b.width + 0.1;
-					}
-					hmax = b.hight;	
+					}	
+					
+					print("book: " + b.hight);					
 				}	
-			}
-
-			createShelf(bc.posx, oy + hmax + 5, bc.posz, bc.rot, bc.larg, bc.depth);
-
-			// hmax + 15 is the position of the last shelf, 5 is the thickness of the shelf
-			createSupport(bc.posx, oy + hmax + 5 + 5, bc.posz, bc.rot, bc.larg, bc.depth);
+				//print("scaffale: " + sh.nshelf + ";  hmax scaffale: " + hmax);
+			}			
+			//createShelf(bc.posx, oy + hmax + 5, bc.posz, bc.rot, bc.larg, bc.depth);
+			// hmax + 5 is the position of the last shelf, 5 is the thickness of the shelf
+			createSupport(bc.posx, oy + 5 , bc.posz, bc.rot, bc.larg, bc.depth);
+			
+			//print("------------------------ Fine scaffale ----------------------------------------------------------");
 		
 		} else {
 			var offsety = 0.0;
@@ -361,10 +366,8 @@ function pauseInfo (t : String, img : String) {
 	var spriteT : Sprite = new Sprite();
 	var tex : Texture2D = new Texture2D(2,2, TextureFormat.RGB24, false);
 	spriteT = Sprite.Create(www.texture, new Rect(0, 0, 744, 1052),new Vector2(0, 0),100.0f);
-	
 	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
-	frontispiece.sprite = spriteT;	
-	
+	frontispiece.sprite = spriteT;		
 }
 
 function resumeGame() {
@@ -372,6 +375,8 @@ function resumeGame() {
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
 	canvasInfoBook.enabled = false;	
+	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
+	frontispiece.sprite = null;
 }
 
 function openPdf() {
