@@ -350,14 +350,12 @@ function pauseInfo (t : String, img : String) {
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
 	canvasInfoBook.enabled = true;
 	
+	scroll = canvasInfoBook.transform.FindChild("scroll_description").GetComponent.<Scrollbar>();
+	scroll.value = 1;
+	
 	title = canvasInfoBook.transform.FindChild("paper_bg/description").GetComponent.<Text>();	
 	var titleReplace = t.Replace("#","\n");
 	title.text = "\n" + titleReplace;
-	
-	
-	scroll = canvasInfoBook.transform.FindChild("scroll_description").GetComponent.<Scrollbar>();
-	scroll.value = 1;
-	scroll.size = 0.77;
 	
 	if (urlPdf.Equals("")) {
 		canvasInfoBook.transform.FindChild("pdf").GetComponent.<Button>().interactable = false;
