@@ -300,6 +300,7 @@ var canvasInfoBook : Canvas;
 var title : Text;
 var frontispiece : Image;
 var pdf_button : Button;
+var scroll : Scrollbar;
 
 function Update () {
 
@@ -350,7 +351,13 @@ function pauseInfo (t : String, img : String) {
 	canvasInfoBook.enabled = true;
 	
 	title = canvasInfoBook.transform.FindChild("paper_bg/description").GetComponent.<Text>();	
-	title.text = t.Replace("#","\n");
+	var titleReplace = t.Replace("#","\n");
+	title.text = "\n" + titleReplace;
+	
+	
+	scroll = canvasInfoBook.transform.FindChild("scroll_description").GetComponent.<Scrollbar>();
+	scroll.value = 1;
+	scroll.size = 0.77;
 	
 	if (urlPdf.Equals("")) {
 		canvasInfoBook.transform.FindChild("pdf").GetComponent.<Button>().interactable = false;
