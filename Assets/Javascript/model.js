@@ -58,6 +58,7 @@ class Book {
 	var linkCatalog : String;
 	var imgUrl : String;
 	var hmax : float = 40;
+	var limited : boolean = false;
 	
 	
 	function Book(id : String, title : String, h : float, w: float,
@@ -66,6 +67,7 @@ class Book {
 		this.title = title;
 		if(h > hmax){
 			h = hmax;
+			limited = true;
 		}
 		this.hight = h;
 		this.width = w;

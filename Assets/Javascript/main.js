@@ -22,11 +22,11 @@ var url_biblio :String;
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
-	var url = "./posizioni_scaffali.txt";
-	var www : WWW = new WWW(url);
-	yield www;
-	var sr = new StringReader(www.text);
+	var sr = new StreamReader("posizioni_scaffali.txt");
+	//var url = "./posizioni_scaffali.txt";
+	//var www : WWW = new WWW(url);
+	//yield www;
+	//var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -59,11 +59,11 @@ function Start () {
 		return;
 	}
 	
-	//sr = new StreamReader("img_url.txt");
-	url = "./img_url.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("img_url.txt");
+	//url = "./img_url.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 	
 	try {
 		url_biblio = sr.ReadLine();
@@ -74,11 +74,11 @@ function Start () {
 		return;
 	}	
 	
-	//sr = new StreamReader("libri.txt");	
-	url = "./libri.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("libri.txt");	
+	//url = "./libri.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -196,42 +196,35 @@ function drawBookcases() {
 		if (bc.listShelves.Count > 0) {
 
 			var oy : float = 0.00;
-			//var hmax : float = 0.00;
 
 			for (var sh in bc.listShelves) {
 				var oz : float = 0.00;
 				oy += sh.offsety;
 
 				createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
-				//hmax = sh.offsety;
 
 				for (var b in sh.listBooks) {
+				
 					if(bc.rot == 0){					
-						createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 1 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+						createBook(bc.posx + (15 - (b.depth/2)), oy + 2.5, bc.posz - (bc.larg/2) + 1 + oz, bc.rot, b.hight, b.width, b.depth, b.id, b.limited);					
 						oz += b.width + 0.1;
 					
 					} else if(bc.rot == 180){
-						createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 1 + oz, bc.rot, b.hight, b.width, b.depth, b.id);					
+						createBook(bc.posx - (15 - (b.depth/2)), oy + 2.5, bc.posz + (bc.larg/2) - 1 + oz, bc.rot, b.hight, b.width, b.depth, b.id, b.limited);					
 						oz -= b.width + 0.1;
 					
 					} else if(bc.rot == 90){
-						createBook(bc.posx - (bc.larg/2) + 1 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+						createBook(bc.posx - (bc.larg/2) + 1 + oz, oy + 2.5, bc.posz - (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id, b.limited);					
 						oz += b.width + 0.1;
 					
 					} else if(bc.rot == -90){
-						createBook(bc.posx + (bc.larg/2) - 1 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id);					
+						createBook(bc.posx + (bc.larg/2) - 1 + oz, oy + 2.5, bc.posz + (15 - (b.depth/2)), bc.rot, b.hight, b.width, b.depth, b.id, b.limited);					
 						oz -= b.width + 0.1;
-					}	
-					
-					print("book: " + b.hight);					
+					}					
 				}	
-				//print("scaffale: " + sh.nshelf + ";  hmax scaffale: " + hmax);
 			}			
-			//createShelf(bc.posx, oy + hmax + 5, bc.posz, bc.rot, bc.larg, bc.depth);
 			// hmax + 5 is the position of the last shelf, 5 is the thickness of the shelf
 			createSupport(bc.posx, oy + 5 , bc.posz, bc.rot, bc.larg, bc.depth);
-			
-			//print("------------------------ Fine scaffale ----------------------------------------------------------");
 		
 		} else {
 			var offsety = 0.0;
@@ -281,7 +274,7 @@ function createSupport (posx : float, posy : float, posz : float, rot : int, lar
 	}
 }
 
-function createBook(posx : float, posy : float, posz : float, rot : int, h : float, w : float, d : float, id : String){
+function createBook(posx : float, posy : float, posz : float, rot : int, h : float, w : float, d : float, id : String, limit : boolean){
 	
 	var instance : Transform;
 	var pos = Vector3(posx, posy, posz);	
@@ -295,6 +288,9 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	
 		child.name = id;
 		child.tag = "selectable";
+		if (limit) {
+			child.renderer.material.mainTexture = Resources.Load("Texture/texture_book_limit", Texture2D);
+		}
 	}
 }
 
