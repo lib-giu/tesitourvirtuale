@@ -349,7 +349,7 @@ function pauseInfo (t : String, img : String) {
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
 	canvasInfoBook.enabled = true;
 	
-	title = canvasInfoBook.transform.FindChild("title").GetComponent.<Text>();	
+	title = canvasInfoBook.transform.FindChild("paper_bg/description").GetComponent.<Text>();	
 	title.text = t.Replace("#","\n");
 	
 	if (urlPdf.Equals("")) {
