@@ -345,10 +345,13 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 // Here because they're only used for the update
 var canvasHelp : Canvas;
 var canvasInfoBook : Canvas;
+var canvasFrontespices : Canvas;
 var title : Text;
 var frontispiece : Image;
 var pdf_button : Button;
 var scroll : Scrollbar;
+var imgButton : Button;
+var scrollFront : Scrollbar;
 
 function Update () {
 
@@ -383,6 +386,7 @@ function Update () {
 				}
 				if (hitInfo.collider.tag == "button") {
 					print("button info book selected: " + name);
+					frontespicesOverlay(name);
 				} 
 				
 			} else {
@@ -399,9 +403,9 @@ function pauseInfo (t : String, img : String) {
 	canvasInfoBook.enabled = true;
 	
 	scroll = canvasInfoBook.transform.FindChild("scroll_description").GetComponent.<Scrollbar>();
-	scroll.value = 1;
+	scroll.value = 1.0;
 	
-	title = canvasInfoBook.transform.FindChild("paper_bg/description").GetComponent.<Text>();	
+	title = canvasInfoBook.transform.FindChild("panel_infoBook/text_infoBook").GetComponent.<Text>();	
 	var titleReplace = t.Replace("#","\n");
 	title.text = "\n" + titleReplace;
 	
@@ -417,6 +421,32 @@ function pauseInfo (t : String, img : String) {
 	spriteT = Sprite.Create(www.texture, new Rect(0, 0, 744, 1052),new Vector2(0, 0),100.0f);
 	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
 	frontispiece.sprite = spriteT;		
+}
+
+var butt_info : Transform;
+
+function frontespicesOverlay(name) {
+	Time.timeScale = 0;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
+	canvasFrontespices.enabled = true;
+	
+	
+//var imgButton : Button;
+//var scrollFront : Scrollbar;
+
+	//var instance : Transform;
+	//var pos = Vector3(posx, posy, posz);	
+	//transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);
+	
+	//instance = Instantiate(book, pos, transform.rotation);
+	//instance.localScale = Vector3(d, h, w);
+	
+	
+	//b.name = name;
+	
+	var instance : Transform;
+	instance = canvasFrontespices.Instantiate(butt_info, transform.position, transform.rotation);
 }
 
 function resumeGame() {
