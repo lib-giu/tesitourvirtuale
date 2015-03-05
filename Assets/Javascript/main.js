@@ -11,6 +11,7 @@ import UnityEngine.UI;
 var shelf : Transform;
 var support : Transform;
 var book : Transform;
+var button : Transform;
 var listBookcases = new List.<Bookcase>();
 var webSwitch : boolean = true;
 var url : String;
@@ -22,11 +23,11 @@ var url_biblio :String;
 function Start () {
 
 	var line : String;
-	//var sr = new StreamReader("posizioni_scaffali.txt");
-	var url = "./posizioni_scaffali.txt";
-	var www : WWW = new WWW(url);
-	yield www;
-	var sr = new StringReader(www.text);
+	var sr = new StreamReader("posizioni_scaffali.txt");
+	//var url = "./posizioni_scaffali.txt";
+	//var www : WWW = new WWW(url);
+	//yield www;
+	//var sr = new StringReader(www.text);
 
 	try {
 		var info : String[];
@@ -59,11 +60,11 @@ function Start () {
 		return;
 	}
 	
-	//sr = new StreamReader("img_url.txt");
-	url = "./img_url.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("img_url.txt");
+	//url = "./img_url.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 	
 	try {
 		url_biblio = sr.ReadLine();
@@ -74,11 +75,11 @@ function Start () {
 		return;
 	}	
 	
-	//sr = new StreamReader("libri.txt");	
-	url = "./libri.txt";
-	www = new WWW(url);
-	yield www;
-	sr = new StringReader(www.text);
+	sr = new StreamReader("libri.txt");	
+	//url = "./libri.txt";
+	//www = new WWW(url);
+	//yield www;
+	//sr = new StringReader(www.text);
 
 	try {
 		line = sr.ReadLine();
@@ -120,6 +121,7 @@ function Start () {
 			imgUrl = info[8];
 			
 			var sh : Shelf;
+			var buttonInfo : ButtonInfo;
 
 			if (nbookcase != bookcasenum) {
 				if (shelfnum != -1) {
@@ -151,19 +153,22 @@ function Start () {
 						listBookcases[bookcasenum].listShelves.Add(sh);
 						shelfnum = nshelf;
 					}
-					
-					sh = new Shelf(punt, hmax);
+					buttonInfo = new ButtonInfo(nbookcase, punt);
+					sh = new Shelf(punt, hmax, buttonInfo);
 					listBookcases[bookcasenum].listShelves.Add(sh);
+					
+					//print("button: " + buttonInfo.id);
 					
 					if (h + 5 > hmax) {
 						hmax = h + 5;
 					}
 					shelfnum = punt;
 					
-				} else if (nshelf - shelfnum == 1) {			
-					print("nscaffale: " + nshelf + " ; hmax: " + hmax);
-					sh = new Shelf(nshelf, hmax);
-					listBookcases[bookcasenum].listShelves.Add(sh);
+				} else if (nshelf - shelfnum == 1) {	
+					buttonInfo = new ButtonInfo(nbookcase, nshelf);		
+					sh = new Shelf(nshelf, hmax, buttonInfo);
+					listBookcases[bookcasenum].listShelves.Add(sh);					
+					//print("button: " + buttonInfo.id);
 					hmax = h + 5;
 					shelfnum = nshelf;
 				}
@@ -186,9 +191,7 @@ function Start () {
 		print(e.Message);
 		return;
 	}
-
 	drawBookcases();
-
 }
 
 function drawBookcases() {
@@ -202,6 +205,21 @@ function drawBookcases() {
 				oy += sh.offsety;
 
 				createShelf(bc.posx, oy, bc.posz, bc.rot, bc.larg, bc.depth);
+				
+				if (sh.listBooks.Count > 0) {
+					if(bc.rot == 0){					
+						createButtonInfo(bc.posx + (bc.depth/2), oy + 1.25, bc.posz - (bc.larg/2) + 5, bc.rot, bc.larg, bc.depth, sh.butt.id);	
+								
+					} else if(bc.rot == 180){
+						createButtonInfo(bc.posx - (bc.depth/2), oy + 1.25, bc.posz + (bc.larg/2) - 5, bc.rot, bc.larg, bc.depth, sh.butt.id);			
+					
+					} else if(bc.rot == 90){
+						createButtonInfo(bc.posx - (bc.larg/2) + 5, oy + 1.25, bc.posz - (bc.depth/2), bc.rot, bc.larg, bc.depth, sh.butt.id);			
+					
+					} else if(bc.rot == -90){
+						createButtonInfo(bc.posx + (bc.larg/2) - 5, oy + 1.25, bc.posz + (bc.depth/2), bc.rot, bc.larg, bc.depth, sh.butt.id);			
+					}	
+				}
 
 				for (var b in sh.listBooks) {
 				
@@ -245,6 +263,36 @@ function createShelf (posx : float, posy : float, posz : float, rot : int, larg 
 	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);	
 	instance = Instantiate(shelf, pos, transform.rotation);
 	instance.localScale = Vector3(depth, 1, larg);
+	
+	/*if(rot == 0){	
+		pos = Vector3(posx + (depth/2), posy + 1.25, posz  - (larg/2) + 5);				
+		instance = Instantiate(button, pos, transform.rotation);
+				
+	} else if(rot == 180){		
+		pos = Vector3(posx - (depth/2), posy + 1.25, posz  + (larg/2) - 5);				
+		instance = Instantiate(button, pos, transform.rotation);
+		
+	} else if(rot == 90){		
+		pos = Vector3(posx - (larg/2) + 5, posy + 1.25, posz - (depth/2));				
+		instance = Instantiate(button, pos, transform.rotation);
+		
+	} else if(rot == -90){		
+		pos = Vector3(posx + (larg/2) - 5, posy + 1.25, posz + (depth/2));				
+		instance = Instantiate(button, pos, transform.rotation);
+	}	*/	
+}
+
+function createButtonInfo (posx : float, posy : float, posz : float, rot : int, larg : float, depth : float, id : String) {
+
+	var instance : Transform;
+	var pos = Vector3(posx, posy, posz);
+	transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);	
+	instance = Instantiate(button, pos, transform.rotation);
+	
+	for (var child : Transform in instance) {	
+		child.name = id;
+		child.tag = "button";
+	}
 }
 
 function createSupport (posx : float, posy : float, posz : float, rot : int, larg : float, depth : float) {
@@ -287,7 +335,7 @@ function createBook(posx : float, posy : float, posz : float, rot : int, h : flo
 	for (var child : Transform in instance) {
 	
 		child.name = id;
-		child.tag = "selectable";
+		child.tag = "book";
 		if (limit) {
 			child.renderer.material.mainTexture = Resources.Load("Texture/texture_book_limit", Texture2D);
 		}
@@ -316,10 +364,8 @@ function Update () {
 			if (hit) {
 				//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
 				//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
-					
-				if (hitInfo.collider.tag == "selectable") {
-					var name : String = hitInfo.transform.gameObject.name;
-						
+				var name : String = hitInfo.transform.gameObject.name;
+				if (hitInfo.collider.tag == "book") {						
 					for (var bc in listBookcases) {
 						for (var sh in bc.listShelves) {
 							for (var b in sh.listBooks) {
@@ -334,9 +380,11 @@ function Update () {
 						}
 					}
 					//Debug.Log("It's working");
-				} else {
-					//Debug.Log("Not working");
 				}
+				if (hitInfo.collider.tag == "button") {
+					print("button info book selected: " + name);
+				} 
+				
 			} else {
 				//Debug.Log("No hit");
 			}
