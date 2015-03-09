@@ -8,6 +8,10 @@ import System.IO;
 import System.Collections.Generic;
 import UnityEngine.UI;
 
+import UnityEngine;
+import UnityEngine.EventSystems;
+import System.Collections;
+
 var shelf : Transform;
 var support : Transform;
 var book : Transform;
@@ -359,41 +363,39 @@ function Update () {
 		return;  /* nothing to do if we're seeing the help screen */
 	}
 	
-	if(!canvasInfoBook.enabled){	
-		if (Input.GetMouseButton(0)) {
-			var hitInfo : RaycastHit = new RaycastHit();
-			var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
-				
-			if (hit) {
-				//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
-				//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
-				var name : String = hitInfo.transform.gameObject.name;
-				if (hitInfo.collider.tag == "book") {						
-					for (var bc in listBookcases) {
-						for (var sh in bc.listShelves) {
-							for (var b in sh.listBooks) {
-								if (b.id == name) {
-									//print("Titolo del libro:" + b.title);
-									//print("Id del libro:" + b.id + " ; Name: " + name);
-									urlPdf = b.linkPdf;							
-									urlCatalog = b.linkCatalog;
-									pauseInfo(b.title, b.imgUrl);
-								}							
-							}
+	if (Input.GetMouseButton(0)) {
+		var hitInfo : RaycastHit = new RaycastHit();
+		var hit = Physics.Raycast(Camera.mainCamera.ScreenPointToRay(Input.mousePosition), hitInfo);
+			
+		if (hit) {
+			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
+			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
+			var name : String = hitInfo.transform.gameObject.name;
+			if (hitInfo.collider.tag == "book" && !canvasInfoBook.enabled && !canvasFrontespices.enabled) {						
+				for (var bc in listBookcases) {
+					for (var sh in bc.listShelves) {
+						for (var b in sh.listBooks) {
+							if (b.id == name) {
+								//print("Titolo del libro:" + b.title);
+								//print("Id del libro:" + b.id + " ; Name: " + name);
+								urlPdf = b.linkPdf;							
+								urlCatalog = b.linkCatalog;
+								pauseInfo(b.title, b.imgUrl);
+							}							
 						}
 					}
-					//Debug.Log("It's working");
 				}
-				if (hitInfo.collider.tag == "button") {
-					print("button info book selected: " + name);
-					frontespicesOverlay(name);
-				} 
-				
-			} else {
-				//Debug.Log("No hit");
+				//Debug.Log("It's working");
 			}
+			if (hitInfo.collider.tag == "button" && !canvasInfoBook.enabled && !canvasFrontespices.enabled) {
+				print("button info book selected: " + name);
+				frontespicesOverlay(name);
+			} 
+			
+		} else {
+			//Debug.Log("No hit");
 		}
-	}
+	}	
 }
 
 function pauseInfo (t : String, img : String) {
@@ -423,30 +425,39 @@ function pauseInfo (t : String, img : String) {
 	frontispiece.sprite = spriteT;		
 }
 
-var butt_info : Transform;
+public var frontButton : GameObject;	
+public var contentPanel : Transform;
 
-function frontespicesOverlay(name) {
+function frontespicesOverlay(name : String) {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
 	canvasFrontespices.enabled = true;
-	
-	
-//var imgButton : Button;
-//var scrollFront : Scrollbar;
 
-	//var instance : Transform;
-	//var pos = Vector3(posx, posy, posz);	
-	//transform.rotation = Quaternion.AngleAxis(rot, Vector3.up);
+	//var itemList = new List.<Item>();
+
+	var nBoookc : int;
+	var nSh : int;
+	var info : String[];
+	info = name.Split("|"[0]);
+	nBoookc = int.Parse(info[0]);
+	nSh = int.Parse(info[1]);	
 	
-	//instance = Instantiate(book, pos, transform.rotation);
-	//instance.localScale = Vector3(d, h, w);
-	
-	
-	//b.name = name;
-	
-	var instance : Transform;
-	instance = canvasFrontespices.Instantiate(butt_info, transform.position, transform.rotation);
+	for (var book in listBookcases[nBoookc].listShelves[nSh].listBooks) {
+		var newButton : GameObject = Instantiate(frontButton) as GameObject;
+		var button : SampleButton = newButton.GetComponent.<SampleButton>();
+
+		var www = new WWW("http://biblio.polito.it/sala_antichi/" + book.imgUrl);
+		yield www;
+
+		var spriteT : Sprite = new Sprite();
+		var tex : Texture2D = new Texture2D(2,2, TextureFormat.RGB24, false);
+		spriteT = Sprite.Create(www.texture, new Rect(0, 0, 744, 1052),new Vector2(0, 0),100.0f);				
+
+		button.icon.sprite = spriteT;
+		//button.button.onClick = item.thinkToDo;
+		newButton.transform.SetParent (contentPanel);
+	}
 }
 
 function resumeGame() {
@@ -464,4 +475,11 @@ function openPdf() {
 
 function openCatalog() {
 	Application.ExternalEval("window.open('" + urlCatalog + "','_blank')");	
+}
+
+function resumeGameFront() {
+	Time.timeScale = 1;
+	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
+	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
+	canvasFrontespices.enabled = false;	
 }
