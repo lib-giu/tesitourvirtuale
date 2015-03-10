@@ -22,6 +22,8 @@ var url : String;
 var urlPdf : String;
 var urlCatalog : String;
 var url_biblio :String;
+var desc : String;
+var urlImg : String;
 
 
 function Start () {
@@ -356,6 +358,8 @@ var pdf_button : Button;
 var scroll : Scrollbar;
 var imgButton : Button;
 var scrollFront : Scrollbar;
+var bookShelf : int;
+var bookBookcase : int;
 
 function Update () {
 
@@ -371,7 +375,8 @@ function Update () {
 			//Debug.Log("Hit " + hitInfo.transform.gameObject.name);			
 			//Debug.Log("Hit " + hitInfo.transform.GetInstanceID);
 			var name : String = hitInfo.transform.gameObject.name;
-			if (hitInfo.collider.tag == "book" && !canvasInfoBook.enabled && !canvasFrontespices.enabled) {						
+			if (hitInfo.collider.tag == "book" && !canvasInfoBook.enabled && !canvasFrontespices.enabled) {	
+			var bcCount = 0;					
 				for (var bc in listBookcases) {
 					for (var sh in bc.listShelves) {
 						for (var b in sh.listBooks) {
@@ -380,10 +385,15 @@ function Update () {
 								//print("Id del libro:" + b.id + " ; Name: " + name);
 								urlPdf = b.linkPdf;							
 								urlCatalog = b.linkCatalog;
-								pauseInfo(b.title, b.imgUrl);
+								desc = b.title;
+								urlImg = b.imgUrl;
+								bookShelf = sh.nshelf;
+								bookBookcase = bcCount;
+								pauseInfo();
 							}							
 						}
 					}
+					bcCount ++;
 				}
 				//Debug.Log("It's working");
 			}
@@ -398,7 +408,7 @@ function Update () {
 	}	
 }
 
-function pauseInfo (t : String, img : String) {
+function pauseInfo () {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
@@ -408,14 +418,14 @@ function pauseInfo (t : String, img : String) {
 	scroll.value = 1.0;
 	
 	title = canvasInfoBook.transform.FindChild("panel_infoBook/text_infoBook").GetComponent.<Text>();	
-	var titleReplace = t.Replace("#","\n");
+	var titleReplace = desc.Replace("#","\n");
 	title.text = "\n" + titleReplace;
 	
 	if (urlPdf.Equals("")) {
 		canvasInfoBook.transform.FindChild("pdf").GetComponent.<Button>().interactable = false;
 	}
 	
-	var www = new WWW(url_biblio + "" + img);
+	var www = new WWW(url_biblio + "" + urlImg);
 	yield www;
 	
 	var spriteT : Sprite = new Sprite();
@@ -426,15 +436,19 @@ function pauseInfo (t : String, img : String) {
 }
 
 public var frontButton : GameObject;	
+//public var itemList = new List.<ItemButton>();	
 public var contentPanel : Transform;
 
 function frontespicesOverlay(name : String) {
 	Time.timeScale = 0;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = false;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = false;
+	var childs : int = contentPanel.transform.childCount; 
+					for (var i = childs - 1; i >= 0; i--) {
+						Destroy(contentPanel.transform.GetChild(i).gameObject);
+					}	
+	
 	canvasFrontespices.enabled = true;
-
-	//var itemList = new List.<Item>();
 
 	var nBoookc : int;
 	var nSh : int;
@@ -444,8 +458,11 @@ function frontespicesOverlay(name : String) {
 	nSh = int.Parse(info[1]);	
 	
 	for (var book in listBookcases[nBoookc].listShelves[nSh].listBooks) {
+		//var itemB = new ItemButton();
 		var newButton : GameObject = Instantiate(frontButton) as GameObject;
-		var button : SampleButton = newButton.GetComponent.<SampleButton>();
+		var button_sample : SampleButton = newButton.GetComponent.<SampleButton>();
+		button_sample.name = book.id;
+		//itemB.nameButton = button_sample.name;
 
 		var www = new WWW("http://biblio.polito.it/sala_antichi/" + book.imgUrl);
 		yield www;
@@ -454,19 +471,35 @@ function frontespicesOverlay(name : String) {
 		var tex : Texture2D = new Texture2D(2,2, TextureFormat.RGB24, false);
 		spriteT = Sprite.Create(www.texture, new Rect(0, 0, 744, 1052),new Vector2(0, 0),100.0f);				
 
-		button.icon.sprite = spriteT;
-		//button.button.onClick = item.thinkToDo;
+		button_sample.icon.sprite = spriteT;			
+		AddListener(button_sample, button_sample.name);	
+		
 		newButton.transform.SetParent (contentPanel);
+		//itemList.Add(itemB);
 	}
 }
 
+function AddListener (b : SampleButton, s : String) {
+	b.button.onClick.AddListener(function() {infoBook(s);});
+}
+
+
 function resumeGame() {
+	resumeShelf();
+	resumeGameFront();
+}
+
+function resumeShelf() {
 	Time.timeScale = 1;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
 	canvasInfoBook.enabled = false;	
 	frontispiece = 	canvasInfoBook.transform.FindChild("frontispiece").GetComponent.<Image>();	
 	frontispiece.sprite = null;
+	canvasFrontespices.enabled = true;
+	
+	frontespicesOverlay(bookBookcase + "|" + bookShelf);
+		
 }
 
 function openPdf() {
@@ -477,9 +510,35 @@ function openCatalog() {
 	Application.ExternalEval("window.open('" + urlCatalog + "','_blank')");	
 }
 
+function infoBook (s : String) {
+	print(s);
+	for (var bc in listBookcases) {
+		for (var sh in bc.listShelves) {
+			for (var b in sh.listBooks) {
+				if (b.id == s) {
+					//print("Titolo del libro:" + b.title);
+					//print("Id del libro:" + b.id + " ; Name: " + name);
+					urlPdf = b.linkPdf;							
+					urlCatalog = b.linkCatalog;
+					desc = b.title;
+					urlImg = b.imgUrl;
+					canvasFrontespices.enabled = false;	
+					
+					pauseInfo();
+				}							
+			}
+		}
+	}	
+}
+
 function resumeGameFront() {
 	Time.timeScale = 1;
 	GameObject.Find("Main Camera").GetComponent(MouseLook).enabled = true;
 	GameObject.Find("First Person Controller").GetComponent(MouseLook).enabled = true;
-	canvasFrontespices.enabled = false;	
+	canvasFrontespices.enabled = false;		
+	
+	var childs : int = contentPanel.transform.childCount; 
+	for (var i = childs - 1; i >= 0; i--) {
+		Destroy(contentPanel.transform.GetChild(i).gameObject);
+	}	
 }

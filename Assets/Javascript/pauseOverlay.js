@@ -7,13 +7,14 @@
 var pauseGame : boolean = false;
 var canvasMenu : Canvas;
 var canvasInfoBook : Canvas;
+var canvasInfoShelf : Canvas;
 
 function Start () {
 	/* nothing to do */
 }
 
 function Update () {
-	if (canvasInfoBook.enabled) {
+	if (canvasInfoBook.enabled || canvasInfoShelf.enabled) {
 		return;	/* nothing to do if we're seeing the help screen */
 	}
 

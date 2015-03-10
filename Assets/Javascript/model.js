@@ -93,8 +93,3 @@ class Book {
 		depth = 25;
 	}
 }
-
-/*public class Item {
-	public var frontespice : Sprite;
-	public var thinkToDo : Button.ButtonClickedEvent;
-}*/
