@@ -77,7 +77,6 @@ class Book {
 	var hmax : float = 40;
 	var limited : boolean = false;
 	
-	
 	function Book(id : String, title : String, h : float, w: float, linkPdf : String, linkCatalog : String, imgUrl : String) {
 		this.id = id;
 		this.title = title;

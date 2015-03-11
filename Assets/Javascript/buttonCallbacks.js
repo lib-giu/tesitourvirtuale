@@ -1,8 +1,10 @@
 ﻿#pragma strict
-
 //
 // Callbacks invoked when buttons are pressed
 //
+import UnityEngine.UI;
+
+var creditsCanvas : Canvas;
 
 function Start () {
 	/* nothing to do */
@@ -26,4 +28,8 @@ function onClickHelp() {
 
 function onClickBack() {
 	Application.LoadLevel("main_menu");
+}
+
+function onClickCredits() {
+	Application.LoadLevel("credits");
 }
