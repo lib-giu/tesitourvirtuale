@@ -33,3 +33,7 @@ function onClickBack() {
 function onClickCredits() {
 	Application.LoadLevel("credits");
 }
+
+function openUnity() {
+	Application.ExternalEval("window.open('http://unity3d.com/','_blank')");	
+}
