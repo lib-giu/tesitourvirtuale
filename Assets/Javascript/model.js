@@ -88,7 +88,7 @@ class Book {
 		this.width = w;
 		this.linkPdf = linkPdf;
 		this.linkCatalog = linkCatalog;
-		this.imgUrl = imgUrl;
+		this.imgUrl = imgUrl;		
 		depth = 25;
 	}
 }

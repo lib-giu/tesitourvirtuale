@@ -37,3 +37,11 @@ function onClickCredits() {
 function openUnity() {
 	Application.ExternalEval("window.open('http://unity3d.com/','_blank')");	
 }
+
+function openNexa() {
+	Application.ExternalEval("window.open('http://nexa.polito.it/')");	
+}
+
+function openNexaBibliotech() {
+	Application.ExternalEval("window.open('http://nexa.polito.it/bibliotech')");	
+}

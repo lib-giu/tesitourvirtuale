@@ -177,6 +177,7 @@ function Start () {
 					hmax = h + 5;
 				}
 			}
+						
 			var bk = new Book(id, title, h, w, linkPdf, linkCatalog, imgUrl);
 			listBookcases[bookcasenum].listShelves[shelfnum].listBooks.Add(bk);
 			
@@ -363,7 +364,7 @@ function Update () {
 				searchBook (name);
 			}
 			if (hitInfo.collider.tag == "button" && !canvasInfoBook.enabled && !canvasFrontespices.enabled) {
-				print("button info book selected: " + name);
+				//print("button info book selected: " + name);
 				frontespicesOverlay(name);
 			} 			
 		} else {
@@ -408,6 +409,8 @@ function pauseInfo () {
 	
 	if (urlPdf.Equals("")) {
 		canvasInfoBook.transform.FindChild("pdf").GetComponent.<Button>().interactable = false;
+	} else {
+		canvasInfoBook.transform.FindChild("pdf").GetComponent.<Button>().interactable = true;
 	}
 	
 	var www = new WWW(url_biblio + "" + urlImg);
@@ -456,6 +459,7 @@ function AddListener (b : SampleButton, s : String) {
 
 function openPdf() {
 	Application.ExternalEval("window.open('" + urlPdf + "','_blank')");		
+	//print(urlPdf);
 }
 
 function openCatalog() {
